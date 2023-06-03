@@ -6,6 +6,7 @@ import useInputField from "../utils/hooks/useInputField";
 export default function SignUp() {
   const {inputValue: avatarName, onChangeHandler: onAvatarNameChangeHandler} = 
     useInputField((value) => {
+      
       const avatarRegex = /^[A-Za-z0-9]{5,}$/;
       return avatarRegex.test(value);
     })
@@ -18,9 +19,13 @@ export default function SignUp() {
 
   const {inputValue: confirmPassword, onChangeHandler: onConfirmPasswordChangeHandler}= 
     useInputField((value) => {
+      if (password.trim() === "") {
+        return false;
+      }
       return value === password; 
     })
   
+    const isPasswordEmpty = password.trim() === "";
   return (
     <main className="min-h-screen flex items-center justify-center">
       <section>
@@ -28,7 +33,12 @@ export default function SignUp() {
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            if (password === confirmPassword) {
+            if(avatarName.trim() === ""){
+              console.log("Avatar name cannot be empty")
+            }
+            else if (isPasswordEmpty) {
+              console.log("Password cannot be empty");
+            } else if (password === confirmPassword) {
               console.log(avatarName, password, confirmPassword);
             } else {
               console.log("Passwords do not match");
