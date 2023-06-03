@@ -18,31 +18,34 @@ export default function SignUp() {
 
   const {inputValue: confirmPassword, onChangeHandler: onConfirmPasswordChangeHandler}= 
     useInputField((value) => {
-      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-      return passwordRegex.test(value);
+      return value === password; 
     })
   
   return (
     <main className="min-h-screen flex items-center justify-center">
       <section>
-        <p>SignIn</p>
+        <p>SignUp</p>
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            console.log(avatarName, password, confirmPassword)
+            if (password === confirmPassword) {
+              console.log(avatarName, password, confirmPassword);
+            } else {
+              console.log("Passwords do not match");
+            }
           }}
           >
           <InputField
             value={avatarName}
             type="text"
             placeholder="Enter your Avatar Name"
-            label="Avatar Name"
+            label="AvatarName"
             onChangeHandler={onAvatarNameChangeHandler}
             />
           
           <InputField
             value={password}
-            type="text"
+            type="password"
             placeholder="Enter your password"
             label="Password"
             onChangeHandler={onPasswordChangeHandler}
@@ -50,9 +53,9 @@ export default function SignUp() {
 
           <InputField
             value={confirmPassword}
-            type="text"
+            type="password"
             placeholder="Enter your password again"
-            label="Password"
+            label="ConfirmPassword"
             onChangeHandler={onConfirmPasswordChangeHandler}
             />
 
