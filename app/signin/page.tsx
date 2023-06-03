@@ -17,13 +17,14 @@ export default function SignIn() {
 		});
 	return (
 		<main className="min-h-screen flex items-center justify-center">
-			<section>
-				<p>SignIn</p>
+			<section className="border-[1.5px] border-black p-6 rounded-md max-w-full w-[350px]">
+				<p className="font-semibold text-xl">SignIn</p>
 				<form
 					onSubmit={(event) => {
 						event.preventDefault();
 						console.log(avatarName, password);
 					}}
+					className="mt-4"
 				>
 					<InputField
 						value={avatarName}
