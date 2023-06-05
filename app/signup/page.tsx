@@ -1,6 +1,6 @@
 'use client';
-import Button from '../components/Button';
-import FormFeedback from '../components/FormFeedback';
+import Button from '../ui/Button';
+import FormFeedback from '../ui/FormFeedback';
 import InputField from '../components/InputField';
 import useInputField from '../utils/hooks/useInputField';
 
