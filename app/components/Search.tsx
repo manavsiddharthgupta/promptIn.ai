@@ -14,12 +14,14 @@ const CustomTextField = styled(TextField)({
 
 const Search = () => {
   return (
-    <CustomTextField
-      className="max-w-[550px] w-full"
-      id="outlined-basic"
-      label="Search Your AI Powered Prompt"
-      variant="outlined"
-    />
+    <section className="flex justify-center mb-8">
+      <CustomTextField
+        className="max-w-[550px] w-full"
+        id="outlined-basic"
+        label="Search Your AI Powered Prompt"
+        variant="outlined"
+      />
+    </section>
   );
 };
 
