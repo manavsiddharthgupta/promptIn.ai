@@ -1,18 +1,12 @@
+import PromptCard from './PromptCard';
+import dataArray from '../utils/store/sampledata';
+
 const Feed = () => {
   return (
-    <section className="columns-3">
-      <div className="border-2 border-black w-full h-40 rounded-md mb-4 break-inside-avoid"></div>
-      <div className="border-2 border-black w-full h-40 rounded-md mb-4 break-inside-avoid"></div>
-      <div className="border-2 border-black w-full h-80 rounded-md mb-4 break-inside-avoid"></div>
-      <div className="border-2 border-black w-full h-40 rounded-md mb-4 break-inside-avoid"></div>
-      <div className="border-2 border-black w-full h-40 rounded-md mb-4 break-inside-avoid"></div>
-      <div className="border-2 border-black w-full h-60 rounded-md mb-4 break-inside-avoid"></div>
-      <div className="border-2 border-black w-full h-60 rounded-md mb-4 break-inside-avoid"></div>
-      <div className="border-2 border-black w-full h-40 rounded-md mb-4 break-inside-avoid"></div>
-      <div className="border-2 border-black w-full h-40 rounded-md mb-4 break-inside-avoid"></div>
-      <div className="border-2 border-black w-full h-80 rounded-md mb-4 break-inside-avoid"></div>
-      <div className="border-2 border-black w-full h-60 rounded-md mb-4 break-inside-avoid"></div>
-      <div className="border-2 border-black w-full h-60 rounded-md mb-4 break-inside-avoid"></div>
+    <section className="columns-1 min-[600px]:columns-2 min-[860px]:columns-3">
+      {dataArray.map((data) => {
+        return <PromptCard key={data.title} promptData={data} />;
+      })}
     </section>
   );
 };
