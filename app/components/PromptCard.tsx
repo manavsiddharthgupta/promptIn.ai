@@ -38,6 +38,7 @@ const PromptCard = ({
           {promptData.prompt}
         </p>
       </div>
+      <p className="mt-[2px] px-1 font-normal text-[#1d9bf0] text-[13px] truncate"></p>
       <div className="flex gap-6 items-center mt-2 px-1">
         <div className="flex gap-[1px] items-center text-gray-600 hover:text-blue-500 cursor-pointer transition-all ease-in-out duration-150">
           <PromptCardIcons icon={faStar} />
