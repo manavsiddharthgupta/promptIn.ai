@@ -1,8 +1,15 @@
+'use client';
 import Button from '../ui/Button';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { usePathname } from 'next/navigation';
 
 const NavBar = () => {
+  const pathname = usePathname();
+  if (pathname === '/create-prompt') {
+    return null;
+  }
+
   return (
     <nav className="flex rounded-md gap-6 py-4 items-center max-w-5xl mx-auto justify-between">
       <p>Find Your Prompt</p>
