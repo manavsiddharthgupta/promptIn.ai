@@ -1,5 +1,8 @@
 import Image from 'next/image';
 import copyIcon from '../utils/images/copy_icon.png';
+import { faBookmark, faStar } from '@fortawesome/free-regular-svg-icons';
+import { faShare } from '@fortawesome/free-solid-svg-icons';
+import PromptCardIcons from '../ui/PromptCardIcons';
 
 const PromptCard = ({
   promptData,
@@ -14,13 +17,13 @@ const PromptCard = ({
       <div className="flex gap-2 items-center justify-between">
         <div className="flex gap-2 truncate">
           <div className="border-[1px] border-black min-w-[2.5rem] min-h-[2.5rem] h-10 rounded-full"></div>
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center truncate overflow-ellipsis">
             <div className="flex gap-2">
-              <p className="text-xs font-semibold">@botter_code</p>
-              <p className="text-xs font-black">·</p>
-              <p className="text-xs font-semibold text-gray-600">2h ago</p>
+              <p className="text-[13px] font-semibold truncate">@botter_code</p>
+              <p className="text-[13px] font-black">·</p>
+              <p className="text-[13px] font-semibold text-gray-600">2h ago</p>
             </div>
-            <p className="text-xs text-gray-600">
+            <p className="text-[12px] text-gray-600 truncate">
               React Developer | Prompter | tester
             </p>
           </div>
@@ -30,8 +33,25 @@ const PromptCard = ({
         </div>
       </div>
       <div className="mt-2 px-1 flex flex-col gap-1">
-        <h1 className="text-sm font-semibold">{promptData.title}</h1>
-        <p className="text-xs text-slate-600">{promptData.prompt}</p>
+        <h1 className="text-[15px] font-semibold">{promptData.title}</h1>
+        <p className="text-[13px] text-slate-600 line-clamp-12">
+          {promptData.prompt}
+        </p>
+      </div>
+      <div className="flex gap-6 items-center mt-2 px-1">
+        <div className="flex gap-[1px] items-center text-gray-600 hover:text-blue-500 cursor-pointer transition-all ease-in-out duration-150">
+          <PromptCardIcons icon={faStar} />
+          <span className="text-xs mt-[2px] font-semibold text-inherit">
+            56
+          </span>
+        </div>
+        <div className="flex gap-[1px] items-center text-gray-600 hover:text-blue-500 cursor-pointer transition-all ease-in-out duration-150">
+          <PromptCardIcons icon={faBookmark} />
+          <span className="text-xs mt-[2px] font-semibold text-inherit">3</span>
+        </div>
+        <div className="text-gray-600 hover:text-blue-500 cursor-pointer transition-all ease-in-out duration-150">
+          <PromptCardIcons icon={faShare} />
+        </div>
       </div>
     </div>
   );
