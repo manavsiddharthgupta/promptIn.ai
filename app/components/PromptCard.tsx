@@ -11,7 +11,7 @@ const PromptCard = ({
   };
 }) => {
   return (
-    <div className="border-[1.5px] border-black w-full rounded-md mb-4 break-inside-avoid p-[10px]">
+    <div className="border-[1.5px] border-black w-full rounded-md mb-4 break-inside-avoid p-[10px] cursor-pointer">
       <div className="flex gap-2 items-center justify-between">
         <div className="flex gap-2 truncate">
           <div className="border-[1px] border-black min-w-[2.5rem] min-h-[2.5rem] h-10 rounded-full"></div>
