@@ -1,7 +1,5 @@
 import Image from 'next/image';
 import copyIcon from '../utils/images/copy_icon.png';
-import { faBookmark, faStar } from '@fortawesome/free-regular-svg-icons';
-import { faShare } from '@fortawesome/free-solid-svg-icons';
 import PromptCardIcons from '../ui/PromptCardIcons';
 
 const PromptCard = ({
@@ -13,7 +11,7 @@ const PromptCard = ({
   };
 }) => {
   return (
-    <div className="border-[1.5px] border-black w-full rounded-md mb-4 break-inside-avoid p-[10px]">
+    <div className="border-[1.5px] border-black w-full rounded-md mb-4 break-inside-avoid p-[10px] cursor-pointer">
       <div className="flex gap-2 items-center justify-between">
         <div className="flex gap-2 truncate">
           <div className="border-[1px] border-black min-w-[2.5rem] min-h-[2.5rem] h-10 rounded-full"></div>
@@ -39,19 +37,16 @@ const PromptCard = ({
         </p>
       </div>
       <p className="mt-[2px] px-1 font-normal text-[#1d9bf0] text-[13px] truncate"></p>
-      <div className="flex gap-6 items-center mt-2 px-1">
+      <div className="flex gap-4 items-center mt-2 px-1">
         <div className="flex gap-[1px] items-center text-gray-600 hover:text-blue-500 cursor-pointer transition-all ease-in-out duration-150">
-          <PromptCardIcons icon={faStar} />
-          <span className="text-xs mt-[2px] font-semibold text-inherit">
-            56
-          </span>
+          <PromptCardIcons iconType="star" selected={false} />
+          <span className="text-xs font-semibold mt-1 text-inherit">56</span>
         </div>
         <div className="flex gap-[1px] items-center text-gray-600 hover:text-blue-500 cursor-pointer transition-all ease-in-out duration-150">
-          <PromptCardIcons icon={faBookmark} />
-          <span className="text-xs mt-[2px] font-semibold text-inherit">3</span>
+          <PromptCardIcons iconType="bookmark" selected={false} />
         </div>
         <div className="text-gray-600 hover:text-blue-500 cursor-pointer transition-all ease-in-out duration-150">
-          <PromptCardIcons icon={faShare} />
+          <PromptCardIcons iconType="share" />
         </div>
       </div>
     </div>
