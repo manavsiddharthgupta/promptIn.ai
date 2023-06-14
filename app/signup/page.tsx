@@ -1,7 +1,7 @@
 'use client';
 import Button from '../ui/Button';
 import FormFeedback from '../ui/FormFeedback';
-import InputField from '../components/InputField';
+import InputField from '../ui/InputField';
 import useInputField from '../utils/hooks/useInputField';
 
 export default function SignUp() {
