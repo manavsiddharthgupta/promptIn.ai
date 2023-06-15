@@ -2,6 +2,7 @@
 import Button from '../ui/Button';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const NavBar = () => {
@@ -14,8 +15,8 @@ const NavBar = () => {
     <nav className="flex rounded-md gap-6 py-4 items-center max-w-5xl mx-auto justify-between">
       <p>Find Your Prompt</p>
       <div className="flex gap-4">
-        <Button
-          type="button"
+        <Link
+          href="/create-prompt"
           className="bg-blue-500 text-white rounded-[10px] px-6 text-sm flex items-center gap-1 h-10"
         >
           Create a Prompt
@@ -23,7 +24,7 @@ const NavBar = () => {
             className="w-[12px] h-[12px] font-bold mt-[2px]"
             icon={faAdd}
           />
-        </Button>
+        </Link>
         <Button
           type="button"
           className="border-2 border-blue-500 text-blue-500 rounded-[10px] px-6 text-sm flex items-center gap-1 h-10 hover:bg-blue-500 hover:text-white hover:border-transparent"

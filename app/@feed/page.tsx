@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import PromptCard from '../components/prompt card/PromptCard';
 import Card from '../ui/Card';
-import dataArray from './store/sampledata';
+import dataArray from '../utils/store/sampledata';
 
 const Feed = () => {
   return (

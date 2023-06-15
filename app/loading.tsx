@@ -1,4 +1,5 @@
-export default function RootLoading() {
-  // You can add any UI inside Loading, including a Skeleton.
-  return <p>Loading...</p>;
-}
+const RootLoading = () => {
+  return <p>...Loading</p>;
+};
+
+export default RootLoading;

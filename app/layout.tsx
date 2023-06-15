@@ -1,6 +1,7 @@
 import './globals.css';
 import NavBar from './components/NavBar';
 import React from 'react';
+import FeedWrap from './ui/Feed';
 
 export const metadata = {
   title: 'Find your prompt',
@@ -9,9 +10,11 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  feed,
   modal,
 }: {
   children: React.ReactNode;
+  feed: React.ReactNode;
   modal: React.ReactNode;
 }) {
   return (
@@ -19,6 +22,7 @@ export default function RootLayout({
       <body>
         <NavBar />
         {children}
+        <FeedWrap>{feed}</FeedWrap>
         {modal}
       </body>
     </html>

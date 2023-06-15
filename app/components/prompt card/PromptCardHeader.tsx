@@ -10,7 +10,10 @@ const PromptCardHeader = () => {
   return (
     <div className="flex gap-2 items-center justify-between">
       <div className="flex gap-2 truncate">
-        <div className="border-[1px] border-black min-w-[2.5rem] min-h-[2.5rem] h-10 rounded-full"></div>
+        <div
+          onClick={onClickHandler}
+          className="border-[1px] border-black min-w-[2.5rem] min-h-[2.5rem] h-10 rounded-full"
+        ></div>
         <div className="flex flex-col justify-center truncate overflow-ellipsis">
           <div className="flex gap-2">
             <p
