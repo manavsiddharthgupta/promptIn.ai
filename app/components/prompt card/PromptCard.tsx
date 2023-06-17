@@ -1,5 +1,8 @@
 import InteractiveIconActions from './InteractiveIconActions';
-import PromptCardHeader from './PromptCardHeader';
+import PromptHeader from './PromptHeader';
+import { PromptCardOutline } from './PromptCardOutline';
+import { PromptHashTags } from './PromptHastags';
+import { PromptBody } from './PromptBody';
 
 const PromptCard = ({
   promptData,
@@ -10,17 +13,23 @@ const PromptCard = ({
   };
 }) => {
   return (
-    <div className="border-[1.5px] border-black w-full rounded-md mb-4 break-inside-avoid p-[10px] cursor-pointer">
-      <PromptCardHeader />
-      <div className="mt-2 px-1 flex flex-col gap-1">
-        <h1 className="text-[15px] font-semibold">{promptData.title}</h1>
-        <p className="text-[13px] text-slate-600 line-clamp-12">
-          {promptData.prompt}
-        </p>
-      </div>
-      <p className="mt-[2px] px-1 font-normal text-[#1d9bf0] text-[13px] truncate"></p>
+    <PromptCardOutline className="mb-4 break-inside-avoid p-[10px]">
+      <PromptHeader
+        profileIconSize="[2.5rem]"
+        copyIconSize="6"
+        userNameSize="[13px]"
+        tagsSize="[12px]"
+      />
+      <PromptBody
+        promptDesc={promptData.prompt}
+        promptTitle={promptData.title}
+        PromptTitleSize="[15px]"
+        PromptDescSize="[13px]"
+        extraStyle="line-clamp-12"
+      />
+      <PromptHashTags />
       <InteractiveIconActions />
-    </div>
+    </PromptCardOutline>
   );
 };
 
