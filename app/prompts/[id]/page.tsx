@@ -15,12 +15,7 @@ const PromptPage = ({ params }: { params: { id: number } }) => {
     <div className="h-[calc(100vh-72px)] flex justify-center items-center">
       <div className="w-full max-w-[800px] bg-white rounded-md">
         <PromptCardOutline className="p-4">
-          <PromptHeader
-            profileIconSize="[2.5rem]"
-            copyIconSize="[28px]"
-            userNameSize="[13px]"
-            tagsSize="[13px]"
-          />
+          <PromptHeader userNameSize="[13px]" />
           <PromptBody
             promptDesc={promptData.prompt}
             promptTitle={promptData.title}

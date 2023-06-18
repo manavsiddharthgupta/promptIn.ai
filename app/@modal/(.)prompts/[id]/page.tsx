@@ -25,12 +25,7 @@ const PromptModal = ({ params }: { params: { id: number } }) => {
       ></div>
       <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-full max-w-[800px] bg-white rounded-md">
         <PromptCardOutline className="p-4">
-          <PromptHeader
-            profileIconSize="[2.5rem]"
-            copyIconSize="[28px]"
-            userNameSize="[13px]"
-            tagsSize="[13px]"
-          />
+          <PromptHeader userNameSize="[13px]" />
           <PromptBody
             promptDesc={promptData.prompt}
             promptTitle={promptData.title}
