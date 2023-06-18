@@ -14,12 +14,7 @@ const PromptCard = ({
 }) => {
   return (
     <PromptCardOutline className="mb-4 break-inside-avoid p-[10px]">
-      <PromptHeader
-        profileIconSize="[2.5rem]"
-        copyIconSize="6"
-        userNameSize="[13px]"
-        tagsSize="[12px]"
-      />
+      <PromptHeader userNameSize="[13px]" />
       <PromptBody
         promptDesc={promptData.prompt}
         promptTitle={promptData.title}
