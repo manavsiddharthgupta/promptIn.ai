@@ -6,11 +6,8 @@ import PromptDismissal from '@/app/components/prompt card/PromptDismissal';
 import { PromptHashTags } from '@/app/components/prompt card/PromptHastags';
 import PromptHeader from '@/app/components/prompt card/PromptHeader';
 import dataArray from '@/app/utils/store/sampledata';
-import { useRouter } from 'next/navigation';
 
 const PromptModal = ({ params }: { params: { id: number } }) => {
-  const router = useRouter();
-
   const filteredData = dataArray.filter((data) => data.id === +params.id);
   const promptData = {
     title: filteredData[0].title,
