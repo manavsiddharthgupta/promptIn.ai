@@ -12,7 +12,7 @@ const Button: FC<ButtonProps> = ({ children, type, className }) => {
       className={
         className
           ? className
-          : 'bg-blue-500 text-white rounded-sm pt-1 px-3 pb-[5px] mt-4'
+          : 'bg-black text-white rounded-sm pt-1 px-3 pb-[5px] mt-4'
       }
       type={type}
     >
