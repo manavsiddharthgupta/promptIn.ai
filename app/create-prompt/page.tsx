@@ -15,7 +15,7 @@ const CreatePrompt = () => {
       <Card>
         <Link
           href="/"
-          className="text-sm px-4 bg-blue-500 text-white pb-[3.25px] pt-[3px] rounded-lg flex gap-2 items-center w-fit"
+          className="text-sm px-4 bg-black text-white pb-[3.25px] pt-[3px] rounded-lg flex gap-2 items-center w-fit"
         >
           <FontAwesomeIcon icon={faArrowLeft} className="w-4 mr-1 pt-[0.5px]" />
           back to home
