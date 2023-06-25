@@ -42,6 +42,20 @@ export default function SignUp() {
     return value === password && value !== '';
   });
 
+  const onSubmitHandler = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    if (
+      isAvatarNameTouched &&
+      isAvatarNameValid &&
+      isPasswordTouched &&
+      isPasswordValid &&
+      isConfirmPasswordTouched &&
+      isConfirmPasswordValid
+    ) {
+      console.log('Form Submitted');
+    }
+  };
+
   return (
     <Card>
       <div className="w-[420px]:min-h-[calc(100vh-72px)] min-h-[calc(100vh-138px)] flex flex-col min-[860px]:flex-row gap-8 items-center justify-center w-[420px]:justify-between h-full transition-all duration-300 ease-in-out">
@@ -50,12 +64,7 @@ export default function SignUp() {
           <p className="font-semibold text-xs mt-1 text-gray-500">
             Create your account now
           </p>
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              console.log(avatarName, password, confirmPassword);
-            }}
-          >
+          <form onSubmit={onSubmitHandler}>
             <InputField
               value={avatarName}
               type="text"
