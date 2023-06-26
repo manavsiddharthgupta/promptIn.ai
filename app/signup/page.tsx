@@ -8,8 +8,14 @@ import GoogleIcon from '@mui/icons-material/Google';
 import loginFrame from '../utils/images/loginframe.png';
 import Link from 'next/link';
 import useInputField from '../utils/hooks/useInputField';
+import { signIn } from 'next-auth/react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function SignUp() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<null | string>(null);
+
   const {
     inputValue: avatarName,
     onChangeHandler: onAvatarNameChangeHandler,
@@ -42,6 +48,8 @@ export default function SignUp() {
     return value === password && value !== '';
   });
 
+  const router = useRouter();
+
   const onSubmitHandler = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
     if (
@@ -52,7 +60,36 @@ export default function SignUp() {
       isConfirmPasswordTouched &&
       isConfirmPasswordValid
     ) {
-      console.log('Form Submitted');
+      setIsLoading(true);
+      setError(null);
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        body: JSON.stringify({
+          avatar: avatarName,
+          password: password,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await res.json();
+      if (data.status === 200) {
+        console.log(data);
+        const res = await signIn('credentials', {
+          redirect: false,
+          avatar: avatarName,
+          password: password,
+        });
+
+        if (!res?.error) {
+          router.push('/');
+        } else {
+          router.push('/signin');
+        }
+      } else {
+        setError(data.message);
+      }
+      setIsLoading(false);
     }
   };
 
@@ -98,14 +135,24 @@ export default function SignUp() {
             {isConfirmPasswordTouched && !isConfirmPasswordValid && (
               <FormFeedback>Invalid Confirm Password</FormFeedback>
             )}
+            {error && (
+              <div className="mt-2">
+                <FormFeedback>{error}</FormFeedback>
+              </div>
+            )}
             <Button
               className="bg-black text-white rounded-sm flex items-center justify-center h-9 mt-6 w-full"
               type="submit"
+              disabled={isLoading}
             >
-              Sign Up
+              {isLoading ? 'Loading...' : 'Sign Up'}
             </Button>
             <Button
               type="button"
+              onClick={async () => {
+                setError(null);
+                signIn('google', { callbackUrl: '/' });
+              }}
               className="w-full mt-3 h-9 border-black border-2 flex items-center justify-center hover:text-white hover:bg-black transition-all duration-300 ease-in-out rounded"
             >
               <GoogleIcon className="mr-2" />
