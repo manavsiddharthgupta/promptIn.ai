@@ -9,8 +9,14 @@ import GoogleIcon from '@mui/icons-material/Google';
 import loginFrame from '../utils/images/loginframe.png';
 import Image from 'next/image';
 import Card from '../ui/Card';
+import { signIn } from 'next-auth/react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function SignIn() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<null | string>(null);
+
   const {
     inputValue: avatarName,
     onChangeHandler: onAvatarNameChangeHandler,
@@ -32,6 +38,35 @@ export default function SignIn() {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     return passwordRegex.test(value);
   });
+
+  const router = useRouter();
+
+  const onSubmitHandler = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    if (
+      isAvatarNameTouched &&
+      isAvatarNameValid &&
+      isPasswordTouched &&
+      isPasswordValid
+    ) {
+      setIsLoading(true);
+      setError(null);
+      const res = await signIn('credentials', {
+        redirect: false,
+        avatar: avatarName,
+        password: password,
+      });
+
+      if (res?.error) {
+        console.log(res);
+        setError(res.error);
+      } else {
+        router.push('/');
+      }
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Card>
       <div className="w-[420px]:min-h-[calc(100vh-72px)] min-h-[calc(100vh-138px)] flex flex-col min-[860px]:flex-row gap-8 items-center justify-center w-[420px]:justify-between h-full transition-all duration-300 ease-in-out">
@@ -40,13 +75,7 @@ export default function SignIn() {
           <p className="font-semibold text-xs mt-1 text-gray-500">
             Welcome back! Please enter your details.
           </p>
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              console.log(avatarName, password);
-            }}
-            className="mt-6"
-          >
+          <form onSubmit={onSubmitHandler} className="mt-6">
             <InputField
               value={avatarName}
               type="text"
@@ -69,6 +98,11 @@ export default function SignIn() {
             {isPasswordTouched && !isPasswordValid && (
               <FormFeedback>Invalid Password</FormFeedback>
             )}
+            {error && (
+              <div className="mt-2">
+                <FormFeedback>Invalid Credentials</FormFeedback>
+              </div>
+            )}
             <div className="flex items-center justify-between mt-4">
               <CheckBox>Remember me</CheckBox>
               <Link
@@ -81,11 +115,16 @@ export default function SignIn() {
             <Button
               className="bg-black text-white rounded-sm flex items-center justify-center h-9 mt-6 w-full"
               type="submit"
+              disabled={isLoading}
             >
-              Sign In
+              {isLoading ? 'Loading...' : 'Sign In'}
             </Button>
             <Button
               type="button"
+              onClick={async () => {
+                setError(null);
+                signIn('google', { callbackUrl: '/' });
+              }}
               className="w-full mt-3 h-9 border-black border-2 flex items-center justify-center hover:text-white hover:bg-black transition-all duration-300 ease-in-out rounded"
             >
               <GoogleIcon className="mr-2" />
