@@ -3,6 +3,7 @@ import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 const NavBar = () => {
   const pathname = usePathname();
@@ -10,7 +11,15 @@ const NavBar = () => {
     return null;
   }
 
-  const isLoggedIn = false; // temp code
+  const { data: session, status } = useSession();
+
+  console.log(session, status);
+
+  let isLoggedIn = false;
+
+  if (status === 'authenticated') {
+    isLoggedIn = true;
+  }
 
   return (
     <nav className="px-4 min-[400px]:px-8 min-[600px]:px-4 lg:px-0 flex rounded-md gap-3 py-4 items-center max-w-5xl mx-auto justify-between transition-all ease-in-out duration-300">
