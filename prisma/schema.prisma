@@ -11,17 +11,20 @@ datasource db {
 }
 
 model User {
-  id             String    @id @unique @default(uuid())
-  avatarName     String?   @unique
-  hashedPassword String?
-  name           String?
-  email          String?   @unique
-  emailVerified  DateTime? @map(name: "email_verified")
-  image          String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  accounts       Account[]
-  sessions       Session[]
+  id               String     @id @unique @default(uuid())
+  avatarName       String?    @unique
+  hashedPassword   String?
+  name             String?
+  email            String?    @unique
+  emailVerified    DateTime?  @map(name: "email_verified")
+  image            String?
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  createdPrompts   Prompt[]   @relation("createdBy")
+  starredPrompt    Star[]
+  bookmarkedPrompt Bookmark[]
+  accounts         Account[]
+  sessions         Session[]
 
   @@map("users")
 }
@@ -68,4 +71,36 @@ model VerificationRequest {
   updatedAt  DateTime @updatedAt
 
   @@unique([identifier, token])
+}
+
+model Prompt {
+  id           String     @id @default(uuid())
+  createdBy    String
+  title        String
+  body         String
+  starredby    Star[]
+  bookmarkedby Bookmark[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  creator      User       @relation("createdBy", fields: [createdBy], references: [id], onDelete: Cascade)
+
+  @@map("prompts")
+}
+
+model Star {
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  prompt   Prompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
+  promptId String
+
+  @@id([userId, promptId])
+}
+
+model Bookmark {
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  prompt   Prompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
+  promptId String
+
+  @@id([userId, promptId])
 }
