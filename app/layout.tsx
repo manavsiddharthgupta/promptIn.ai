@@ -2,6 +2,7 @@ import './globals.css';
 import NavBar from './components/NavBar';
 import React from 'react';
 import FeedWrap from './ui/Feed';
+import Search from './components/Search';
 import { SessionWrap } from './ui/SessionWrap';
 import { DefaultSession } from 'next-auth/core/types';
 
@@ -27,6 +28,7 @@ export default function RootLayout({
         <body>
           <NavBar />
           {children}
+          <Search />
           <FeedWrap>{feed}</FeedWrap>
           {modal}
         </body>

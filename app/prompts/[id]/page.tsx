@@ -15,7 +15,7 @@ const PromptPage = ({ params }: { params: { id: number } }) => {
   return (
     <div className="h-[calc(100vh-72px)] flex justify-center items-center">
       <div className="w-full max-w-[800px] bg-white rounded-md">
-        <PromptDismissal textColor="[#909090]" hoverTextColor="black" />
+        <PromptDismissal textColor="black" />
         <PromptCardOutline className="p-4">
           <PromptHeader userNameSize="[13px]" />
           <PromptBody
