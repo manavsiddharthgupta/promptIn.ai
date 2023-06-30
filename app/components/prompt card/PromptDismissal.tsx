@@ -2,13 +2,7 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/navigation';
 
-const PromptDismissal = ({
-  textColor,
-  hoverTextColor,
-}: {
-  textColor: string;
-  hoverTextColor: string;
-}) => {
+const PromptDismissal = ({ textColor }: { textColor: string }) => {
   const router = useRouter();
 
   return (
@@ -16,7 +10,7 @@ const PromptDismissal = ({
       onClick={() => {
         router.back();
       }}
-      className={`flex gap-4 items-center w-fit text-${textColor} hover:text-${hoverTextColor} cursor-pointer mb-2 transition-all ease-in-out duration-300`}
+      className={`flex gap-4 items-center w-fit text-${textColor} cursor-pointer mb-4 transition-all ease-in-out duration-300`}
     >
       <ArrowBackIcon className="" />
       <p className="">back to feed</p>

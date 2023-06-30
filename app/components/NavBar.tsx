@@ -17,12 +17,12 @@ const NavBar = () => {
 
   let isLoggedIn = false;
 
-  if (status === 'authenticated') {
+  if (status != undefined && status === 'authenticated') {
     isLoggedIn = true;
   }
 
   return (
-    <nav className="px-4 min-[400px]:px-8 min-[600px]:px-4 lg:px-0 flex rounded-md gap-3 py-4 items-center max-w-5xl mx-auto justify-between transition-all ease-in-out duration-300">
+    <nav className="px-4 min-[400px]:px-8 min-[600px]:px-4 lg:px-4 flex rounded-md gap-3 py-4 items-center max-w-[70rem] mx-auto justify-between transition-all ease-in-out duration-300">
       <p className="text-xs min-[600px]:text-sm transition-all ease-in-out duration-300">
         Find Your Prompt
       </p>

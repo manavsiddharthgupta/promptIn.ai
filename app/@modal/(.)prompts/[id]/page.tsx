@@ -17,7 +17,7 @@ const PromptModal = ({ params }: { params: { id: number } }) => {
     <>
       <div className="z-0 fixed w-full h-screen top-0 left-0 bg-[rgba(0,0,0,0.71)] p-4"></div>
       <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-11/12 max-w-[800px]">
-        <PromptDismissal textColor="[#cbc3c3]" hoverTextColor="white" />
+        <PromptDismissal textColor="white" />
         <div className="bg-white rounded-md">
           <PromptCardOutline className="p-4">
             <PromptHeader userNameSize="[13px]" />

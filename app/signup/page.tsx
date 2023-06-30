@@ -5,7 +5,7 @@ import Card from '../ui/Card';
 import FormFeedback from '../ui/FormFeedback';
 import InputField from '../ui/InputField';
 import GoogleIcon from '@mui/icons-material/Google';
-import loginFrame from '../utils/images/loginframe.png';
+import signupFrame from '../utils/images/signupframe.png';
 import Link from 'next/link';
 import useInputField from '../utils/hooks/useInputField';
 import { signIn } from 'next-auth/react';
@@ -167,7 +167,7 @@ export default function SignUp() {
           </form>
         </section>
         <div className="hidden min-[420px]:block flex-1">
-          <Image className="w-full" src={loginFrame} alt="login-page" />
+          <Image className="w-full" src={signupFrame} alt="login-page" />
         </div>
       </div>
     </Card>

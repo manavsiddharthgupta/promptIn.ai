@@ -13,7 +13,7 @@ const PromptCard = ({
   };
 }) => {
   return (
-    <PromptCardOutline className="mb-4 break-inside-avoid p-[10px]">
+    <PromptCardOutline className="mb-4 break-inside-avoid p-[10px] border-[1px] border-black">
       <PromptHeader userNameSize="[13px]" />
       <PromptBody
         promptDesc={promptData.prompt}
