@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { ProfileBar } from './profile bar/ProfileBar';
+import { ProfileBar } from './profile/ProfileBar';
 import { useRef, useState } from 'react';
 import { useClosePanel } from '../utils/hooks/useClosePanel';
 import { motion } from 'framer-motion';

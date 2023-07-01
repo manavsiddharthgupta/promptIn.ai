@@ -16,7 +16,7 @@ export const ProfileBar = () => {
       <div className="flex gap-2 items-center p-1 rounded-md">
         <Image className="w-10 h-10 rounded-full" src={test} alt="__user" />
         <div className="truncate">
-          <h2 className="text-xs font-semibold">deltron</h2>
+          <h2 className="text-sm font-semibold">deltron</h2>
           <p className="text-[10px] text-gray-600">
             React Developer | Prompter | tester
           </p>
@@ -24,7 +24,13 @@ export const ProfileBar = () => {
       </div>
       <Link
         className="h-9 flex items-center text-sm text-black px-3 my-1 hover:bg-black hover:text-white rounded-md"
-        href="./"
+        href="/" // temp code
+      >
+        Dashboard
+      </Link>
+      <Link
+        className="h-9 flex items-center text-sm text-black px-3 my-1 hover:bg-black hover:text-white rounded-md"
+        href="/profile/manav_sidd" // temp code
       >
         My Profile
       </Link>

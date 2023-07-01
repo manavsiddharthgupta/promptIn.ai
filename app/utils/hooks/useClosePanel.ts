@@ -1,7 +1,5 @@
 import { RefObject, useCallback, useEffect } from 'react';
 
-interface closePanel {}
-
 export const useClosePanel = (
   onClosePanel: () => void,
   profileBarRef: RefObject<HTMLInputElement>,
@@ -18,7 +16,6 @@ export const useClosePanel = (
 
   useEffect(() => {
     document.addEventListener('mousedown', clickingOutside);
-
     return () => {
       document.removeEventListener('mousedown', clickingOutside);
     };
