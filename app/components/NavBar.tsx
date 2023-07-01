@@ -4,12 +4,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { ProfileBar } from './profile bar/ProfileBar';
+import { useRef, useState } from 'react';
+import { useClosePanel } from '../utils/hooks/useClosePanel';
+import { motion } from 'framer-motion';
 
 const NavBar = () => {
   const pathname = usePathname();
   if (pathname === '/create-prompt') {
     return null;
   }
+
+  const [isPanelOpened, setPanelStatus] = useState(false);
+  const profileBarRef = useRef<HTMLInputElement>(null);
+  const profileBtnRef = useRef<HTMLInputElement>(null);
+
+  const onClosePanel = () => {
+    setPanelStatus(false);
+  };
+  const onProfileBtnHandler = () => {
+    setPanelStatus((state) => {
+      return !state;
+    });
+  };
+
+  useClosePanel(onClosePanel, profileBarRef, profileBtnRef);
 
   const { data: session, status } = useSession();
 
@@ -22,7 +41,7 @@ const NavBar = () => {
   }
 
   return (
-    <nav className="px-4 min-[400px]:px-8 min-[600px]:px-4 lg:px-4 flex rounded-md gap-3 py-4 items-center max-w-[70rem] mx-auto justify-between transition-all ease-in-out duration-300">
+    <nav className="px-4 min-[400px]:px-8 min-[600px]:px-4 lg:px-4 flex rounded-md gap-3 py-4 items-center max-w-[70rem] mx-auto justify-between transition-all ease-in-out duration-300 relative">
       <p className="text-xs min-[600px]:text-sm transition-all ease-in-out duration-300">
         Find Your Prompt
       </p>
@@ -56,9 +75,24 @@ const NavBar = () => {
           </Link>
         )}
         {isLoggedIn && (
-          <div className="border-black border-[1px] min-w-[2rem] min-[600px]:w-10 min-[600px]:h-10 w-8 h-8 rounded-full cursor-pointer transition-all ease-in-out duration-300"></div>
+          <div
+            ref={profileBtnRef}
+            onClick={onProfileBtnHandler}
+            className="border-black border-[1px] min-w-[2rem] min-[600px]:w-10 min-[600px]:h-10 w-8 h-8 rounded-full cursor-pointer transition-all ease-in-out duration-300"
+          ></div>
         )}
       </div>
+
+      {isLoggedIn && isPanelOpened && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.2 }}
+          className="w-full max-w-[280px] rounded-md border-black border-2 absolute right-4 min-[400px]:right-8 min-[600px]:right-4 lg:right-4 top-16 bg-white p-2"
+          ref={profileBarRef}
+          children={<ProfileBar />}
+        />
+      )}
     </nav>
   );
 };
