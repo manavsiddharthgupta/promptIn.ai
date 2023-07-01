@@ -23,12 +23,12 @@ export const ProfileBar = () => {
         </div>
       </div>
       <Link
-        className="h-9 flex items-center text-sm text-black px-3 my-2 hover:bg-black hover:text-white rounded-md"
+        className="h-9 flex items-center text-sm text-black px-3 my-1 hover:bg-black hover:text-white rounded-md"
         href="./"
       >
         My Profile
       </Link>
-      <div className="flex justify-between my-2 px-3 py-2 items-center">
+      <div className="flex justify-between my-1 px-3 py-2 items-center">
         <h2 className="text-sm">Dark Mode</h2>
         <div className="w-8">
           <div

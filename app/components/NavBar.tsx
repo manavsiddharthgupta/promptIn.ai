@@ -85,10 +85,10 @@ const NavBar = () => {
 
       {isLoggedIn && isPanelOpened && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
+          initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.2 }}
-          className="w-full max-w-[280px] rounded-md border-black border-2 absolute right-4 min-[400px]:right-8 min-[600px]:right-4 lg:right-4 top-16 bg-white p-2"
+          transition={{ duration: 0.1 }}
+          className="w-full max-w-[280px] rounded-md border-[#d1d1d1] border-[1px] drop-shadow-md absolute right-4 min-[400px]:right-8 min-[600px]:right-4 lg:right-4 top-16 bg-white p-2"
           ref={profileBarRef}
           children={<ProfileBar />}
         />
