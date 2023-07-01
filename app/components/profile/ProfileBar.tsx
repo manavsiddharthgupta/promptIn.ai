@@ -16,19 +16,25 @@ export const ProfileBar = () => {
       <div className="flex gap-2 items-center p-1 rounded-md">
         <Image className="w-10 h-10 rounded-full" src={test} alt="__user" />
         <div className="truncate">
-          <h2 className="text-xs font-semibold">deltron</h2>
+          <h2 className="text-sm font-semibold">deltron</h2>
           <p className="text-[10px] text-gray-600">
             React Developer | Prompter | tester
           </p>
         </div>
       </div>
       <Link
-        className="h-9 flex items-center text-sm text-black px-3 my-2 hover:bg-black hover:text-white rounded-md"
-        href="./"
+        className="h-9 flex items-center text-sm text-black px-3 my-1 hover:bg-black hover:text-white rounded-md"
+        href="/" // temp code
+      >
+        Dashboard
+      </Link>
+      <Link
+        className="h-9 flex items-center text-sm text-black px-3 my-1 hover:bg-black hover:text-white rounded-md"
+        href="/profile/manav_sidd" // temp code
       >
         My Profile
       </Link>
-      <div className="flex justify-between my-2 px-3 py-2 items-center">
+      <div className="flex justify-between my-1 px-3 py-2 items-center">
         <h2 className="text-sm">Dark Mode</h2>
         <div className="w-8">
           <div

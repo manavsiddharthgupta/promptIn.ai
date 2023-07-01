@@ -6,7 +6,7 @@ import { PromptHashTags } from '@/app/components/prompt card/PromptHastags';
 import PromptHeader from '@/app/components/prompt card/PromptHeader';
 import dataArray from '@/app/utils/store/sampledata';
 
-const PromptPage = ({ params }: { params: { id: number } }) => {
+const PromptPage = ({ params }: { params: { id: string } }) => {
   const filteredData = dataArray.filter((data) => data.id === +params.id);
   const promptData = {
     title: filteredData[0].title,
