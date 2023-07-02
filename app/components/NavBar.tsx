@@ -7,7 +7,9 @@ import { useSession } from 'next-auth/react';
 import { ProfileBar } from './profile/ProfileBar';
 import { useRef, useState } from 'react';
 import { useClosePanel } from '../utils/hooks/useClosePanel';
+import avatar from '../utils/images/avatar.png';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 const NavBar = () => {
   const pathname = usePathname();
@@ -74,12 +76,16 @@ const NavBar = () => {
             Sign Up
           </Link>
         )}
+
         {isLoggedIn && (
-          <div
-            ref={profileBtnRef}
-            onClick={onProfileBtnHandler}
-            className="border-black border-[1px] min-w-[2rem] min-[600px]:w-10 min-[600px]:h-10 w-8 h-8 rounded-full cursor-pointer transition-all ease-in-out duration-300"
-          ></div>
+          <div ref={profileBtnRef}>
+            <Image
+              src={avatar}
+              alt="avatar"
+              onClick={onProfileBtnHandler}
+              className="drop-shadow-sm min-w-[2rem] min-[600px]:w-10 min-[600px]:h-10 w-8 h-8 rounded-full cursor-pointer transition-all ease-in-out duration-300"
+            />
+          </div>
         )}
       </div>
 
@@ -88,7 +94,7 @@ const NavBar = () => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.1 }}
-          className="w-full max-w-[280px] rounded-md border-[#d1d1d1] border-[1px] drop-shadow-md absolute right-4 min-[400px]:right-8 min-[600px]:right-4 lg:right-4 top-16 bg-white p-2"
+          className="w-full max-w-[280px] rounded-md border-[#d1d1d1] border-[1px] drop-shadow-md absolute right-4 min-[400px]:right-8 min-[600px]:right-4 lg:right-4 top-16 bg-white p-2 z-20"
           ref={profileBarRef}
           children={<ProfileBar />}
         />

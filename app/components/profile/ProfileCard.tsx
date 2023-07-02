@@ -6,9 +6,9 @@ import Button from '@/app/ui/Button';
 export const ProfileCard = () => {
   return (
     <div className="flex items-center my-12 flex-col max-w-2xl min-[450px]:p-8 p-4 hover:bg-[#00000012] mx-auto rounded-lg transition-all ease-in-out duration-200 relative">
-      <Button type="button" className="absolute right-4 top-4 cursor-pointer">
+      <div className="absolute right-4 top-4 cursor-pointer">
         <EditBtn />
-      </Button>
+      </div>
       <Image
         className="w-32 h-32 border-[1px] border-black rounded-full"
         src={avatar}
