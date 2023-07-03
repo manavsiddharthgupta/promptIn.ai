@@ -5,6 +5,7 @@ import { PromptCardOutline } from '@/app/components/prompt card/PromptCardOutlin
 import PromptDismissal from '@/app/components/prompt card/PromptDismissal';
 import { PromptHashTags } from '@/app/components/prompt card/PromptHastags';
 import PromptHeader from '@/app/components/prompt card/PromptHeader';
+import { ModalCard } from '@/app/ui/ModalCard';
 import dataArray from '@/app/utils/store/sampledata';
 
 const PromptModal = ({ params }: { params: { id: number } }) => {
@@ -14,9 +15,8 @@ const PromptModal = ({ params }: { params: { id: number } }) => {
     prompt: filteredData[0].prompt,
   };
   return (
-    <>
-      <div className="z-0 fixed w-full h-screen top-0 left-0 bg-[rgba(0,0,0,0.71)] p-4"></div>
-      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-11/12 max-w-[800px]">
+    <ModalCard>
+      <div className="w-11/12 max-w-[800px] mx-auto">
         <PromptDismissal textColor="white" />
         <div className="bg-white rounded-md">
           <PromptCardOutline className="p-4">
@@ -33,7 +33,7 @@ const PromptModal = ({ params }: { params: { id: number } }) => {
           </PromptCardOutline>
         </div>
       </div>
-    </>
+    </ModalCard>
   );
 };
 

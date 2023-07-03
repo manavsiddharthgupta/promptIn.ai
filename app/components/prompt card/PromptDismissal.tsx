@@ -10,7 +10,7 @@ const PromptDismissal = ({ textColor }: { textColor: string }) => {
       onClick={() => {
         router.back();
       }}
-      className={`flex gap-4 items-center w-fit text-${textColor} cursor-pointer mb-4 transition-all ease-in-out duration-300`}
+      className={`flex gap-4 items-center w-fit text-${textColor} cursor-pointer mb-2 transition-all ease-in-out duration-300`}
     >
       <ArrowBackIcon className="" />
       <p className="">back to feed</p>
