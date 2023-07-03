@@ -1,4 +1,15 @@
-const dataArray = [
+export interface sampleData {
+  title: string;
+  id: number;
+  prompt: string;
+  username?: string;
+  postedOn?: string;
+  stars?: number;
+  skills?: string[];
+}
+[];
+
+const dataArray: sampleData[] = [
   {
     title: 'Historical Events',
     id: 1,
