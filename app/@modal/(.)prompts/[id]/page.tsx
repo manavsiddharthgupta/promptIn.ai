@@ -16,20 +16,22 @@ const PromptModal = ({ params }: { params: { id: number } }) => {
   };
   return (
     <ModalCard>
-      <PromptDismissal textColor="white" />
-      <div className="bg-white rounded-md">
-        <PromptCardOutline className="p-4">
-          <PromptHeader userNameSize="[13px]" />
-          <PromptBody
-            promptDesc={promptData.prompt}
-            promptTitle={promptData.title}
-            PromptTitleSize="[16px]"
-            PromptDescSize="[14px]"
-            extraStyle="max-h-[200px] overflow-auto"
-          />
-          <PromptHashTags />
-          <InteractiveIconActions />
-        </PromptCardOutline>
+      <div className="w-11/12 max-w-[800px] mx-auto">
+        <PromptDismissal textColor="white" />
+        <div className="bg-white rounded-md">
+          <PromptCardOutline className="p-4">
+            <PromptHeader userNameSize="[13px]" />
+            <PromptBody
+              promptDesc={promptData.prompt}
+              promptTitle={promptData.title}
+              PromptTitleSize="[16px]"
+              PromptDescSize="[14px]"
+              extraStyle="max-h-[200px] overflow-auto"
+            />
+            <PromptHashTags />
+            <InteractiveIconActions />
+          </PromptCardOutline>
+        </div>
       </div>
     </ModalCard>
   );

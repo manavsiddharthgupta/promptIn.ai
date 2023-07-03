@@ -1,12 +1,18 @@
 import Image from 'next/image';
 import avatar from '../../utils/images/avatar.png';
 import { MailIcon, WebLink, EditBtn } from '@/app/ui/Icons';
-import Button from '@/app/ui/Button';
 
-export const ProfileCard = () => {
+export const ProfileCard = ({
+  openEditModalHandler,
+}: {
+  openEditModalHandler: () => void;
+}) => {
   return (
     <div className="flex items-center my-12 flex-col max-w-2xl min-[450px]:p-8 p-4 hover:bg-[#00000012] mx-auto rounded-lg transition-all ease-in-out duration-200 relative">
-      <div className="absolute right-4 top-4 cursor-pointer">
+      <div
+        onClick={openEditModalHandler}
+        className="absolute right-4 top-4 cursor-pointer"
+      >
         <EditBtn />
       </div>
       <Image
