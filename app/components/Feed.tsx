@@ -1,8 +1,19 @@
 import PromptCard from './prompt card/PromptCard';
-import dataArray from '../utils/store/sampledata';
 import Link from 'next/link';
 
-const Feed = () => {
+const Feed = ({
+  dataArray,
+}: {
+  dataArray: {
+    title: string;
+    id: number;
+    prompt: string;
+    username?: string;
+    postedOn?: string;
+    stars?: number;
+    skills?: string[];
+  }[];
+}) => {
   return (
     <section className="columns-1 min-[600px]:columns-2 min-[860px]:columns-3">
       {dataArray.map((data) => {
