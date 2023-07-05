@@ -4,14 +4,26 @@ import { MailIcon, WebLink } from '@/app/ui/Icons';
 import InputField from '@/app/ui/InputField';
 import { ModalCard } from '@/app/ui/ModalCard';
 import useInputField from '@/app/utils/hooks/useInputField';
-import ProfileUpload from './ProfileUpload';
+import avatar from '../../utils/images/avatar.png';
+import { ImageEdit } from './ImageEdit';
+import { CropImage } from './Cropper';
 import { ToastContainer } from 'react-toastify';
+import { SetStateAction, useState } from 'react';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProfileEdit = ({
   closeEditModalHandler,
 }: {
   closeEditModalHandler: () => void;
 }) => {
+  const [croppedImage, setCroppedImage] = useState<string | null>(avatar.src); // initial by database
+  const [showCropper, setCropper] = useState<boolean>(false); // cropper or image edit
+  const [choosedImg, setChoosedImg] = useState<string | null>(null); // choosed image from file input
+
+  const onSetChoosedImg = (value: SetStateAction<string | null>) => {
+    setChoosedImg(value);
+  };
+
   const {
     inputValue: avatarName,
     isInputValueValid: isAvatarNameValid,
@@ -58,7 +70,20 @@ const ProfileEdit = ({
         </h1>
         <div className="max-h-[calc(100vh-80px)] overflow-y-auto">
           <div className="my-4">
-            <ProfileUpload />
+            {!showCropper && (
+              <ImageEdit
+                onSetChoosedImgHandler={onSetChoosedImg}
+                srcImg={croppedImage!}
+                onSetCropper={setCropper}
+              />
+            )}
+            {showCropper && (
+              <CropImage
+                srcImg={choosedImg!}
+                setCroppedImage={setCroppedImage}
+                onSetCropper={setCropper}
+              />
+            )}
           </div>
           <div className="px-8">
             <InputField
