@@ -20,8 +20,6 @@ export const SearchUsers = () => {
           >
             @botter_code
           </p>
-          <p className={`text-[13px] font-black`}>·</p>
-          <p className={`text-[13px] font-semibold text-gray-600`}>2h ago</p>
         </div>
         <p className={`text-[12px] text-gray-600 truncate`}>
           React Developer | Prompter | tester

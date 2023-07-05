@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import test from '../../utils/images/loginframe.png';
+import test from '../../utils/images/avatar.png';
 import Button from '@/app/ui/Button';
 import { signOut } from 'next-auth/react';
 import { useState } from 'react';

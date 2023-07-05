@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import { styled } from '@mui/system';
 import { usePathname } from 'next/navigation';
 import { useState, useRef, RefObject, useEffect } from 'react';
-import Card from '../ui/Card';
+import Card from '../../ui/Card';
 import { motion } from 'framer-motion';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { SearchExpanded } from './SearchExpanded';
