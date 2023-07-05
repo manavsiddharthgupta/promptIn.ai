@@ -2,7 +2,7 @@ import './globals.css';
 import NavBar from './components/NavBar';
 import React from 'react';
 import FeedWrap from './ui/Feed';
-import Search from './components/Search';
+import Search from './components/search bar/Search';
 import { SessionWrap } from './ui/SessionWrap';
 import { DefaultSession } from 'next-auth/core/types';
 
