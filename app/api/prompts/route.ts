@@ -4,7 +4,14 @@ import { NextResponse } from 'next/server';
 const prisma = new PrismaClient();
 
 export async function GET(request: Request) {
-  const prompts = await prisma.prompt.findMany();
+  const prompts = await prisma.prompt.findMany({
+    include: {
+      tags: true,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
 
   if (!prompts) {
     return NextResponse.json({
@@ -21,13 +28,63 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const { createdBy, title, body } = await request.json();
+  const { createdBy, title, body, tags } = await request.json();
+
+  const allTags = tags.map((tag: string) => {
+    return {
+      name: tag,
+      slug: tag.toLowerCase(),
+    };
+  });
+
+  const checkTagExist = async (slug: string) => {
+    const existingTag = await prisma.tag.findUnique({
+      where: {
+        slug: slug,
+      },
+    });
+    return existingTag;
+  };
+
+  const filteringCreateTags = async () => {
+    const toCreateTags = await Promise.all(
+      allTags.map(async (tag: { name: string; slug: string }) => {
+        const existingTag = await checkTagExist(tag.slug);
+        if (existingTag) {
+          return false;
+        }
+        return tag;
+      })
+    );
+
+    return toCreateTags.filter(Boolean);
+  };
+
+  const createtag = await filteringCreateTags();
+
+  if (!createtag) {
+    return NextResponse.json({
+      status: 401,
+      message: 'Tags not created',
+    });
+  }
 
   const userResponse = await prisma.prompt.create({
     data: {
       createdBy: createdBy,
       title: title,
       body: body,
+      tags: {
+        create: createtag,
+        connect: allTags
+          .filter(
+            (tag: { name: string; slug: string }) => !createtag.includes(tag)
+          )
+          .map((tag: { name: string; slug: string }) => ({ slug: tag.slug })),
+      },
+    },
+    include: {
+      tags: true,
     },
   });
 
