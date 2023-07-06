@@ -10,10 +10,23 @@ import { CropImage } from './Cropper';
 import { ToastContainer } from 'react-toastify';
 import { SetStateAction, useState } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
+import { ProfileData } from './ProfileComponent';
 
 const ProfileEdit = ({
+  profileCardData: {
+    extraInfo: {
+      avatarName: initialAvatarName,
+      email: initialEmail,
+      name: initialName,
+      image: initialImage,
+      link: initailLink,
+      oneLiner: initialOneLiner,
+      profileTags,
+    },
+  },
   closeEditModalHandler,
 }: {
+  profileCardData: ProfileData;
   closeEditModalHandler: () => void;
 }) => {
   const [croppedImage, setCroppedImage] = useState<string | null>(avatar.src); // initial by database
@@ -30,7 +43,7 @@ const ProfileEdit = ({
     onChangeHandler: onAvatarNameChangeHandler,
     isTouched: isAvatarNameTouched,
     onBlurHandler: onAvatarNameBlurHandler,
-  } = useInputField(() => true);
+  } = useInputField(initialAvatarName, () => true);
 
   const {
     inputValue: oneLiner,
@@ -38,7 +51,7 @@ const ProfileEdit = ({
     onChangeHandler: onOneLinerChangeHandler,
     isTouched: isOneLinerTouched,
     onBlurHandler: onOneLinerBlurHandler,
-  } = useInputField(() => true);
+  } = useInputField(initialOneLiner, () => true);
 
   const {
     inputValue: tags,
@@ -46,7 +59,7 @@ const ProfileEdit = ({
     onChangeHandler: onTagsChangeHandler,
     isTouched: isTagsTouched,
     onBlurHandler: onTagsBlurHandler,
-  } = useInputField((inputValue: string): boolean => {
+  } = useInputField(profileTags.join(' | '), (inputValue: string): boolean => {
     const tags: string[] = inputValue.split('|');
 
     if (tags.length > 3) {
@@ -61,6 +74,39 @@ const ProfileEdit = ({
     }
     return true;
   });
+
+  const {
+    inputValue: email,
+    isInputValueValid: isEmailValid,
+    onChangeHandler: onEmailChangeHandler,
+    isTouched: isEmailTouched,
+    onBlurHandler: onEmailBlurHandler,
+  } = useInputField(initialEmail, (email) => {
+    const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return pattern.test(email);
+  });
+
+  const {
+    inputValue: website,
+    isInputValueValid: isWebsiteValid,
+    onChangeHandler: onWebsiteChangeHandler,
+    isTouched: isWebsiteTouched,
+    onBlurHandler: onWebsiteBlurHandler,
+  } = useInputField(initailLink, (url) => {
+    const pattern = /^(https?:\/\/)?([\w.-]+\.[a-z]{2,})(\/\S*)?$/;
+    return pattern.test(url);
+  });
+
+  const onUpdateProfileHandler = () => {
+    console.log('update profile : ', {
+      avatarName,
+      oneLiner,
+      tags,
+      email,
+      website,
+      image: croppedImage,
+    });
+  };
 
   return (
     <ModalCard>
@@ -114,17 +160,23 @@ const ProfileEdit = ({
             <div className="flex gap-2 items-center">
               <MailIcon />
               <input
+                value={email}
                 className="block w-full rounded-sm py-1 px-2 outline-none border-[1px] border-black mt-1 font-normal text-xs"
                 type="mail"
                 placeholder="Add your email"
+                onChange={onEmailChangeHandler}
+                onBlur={onEmailBlurHandler}
               />
             </div>
             <div className="flex gap-2 items-center">
               <WebLink />
               <input
+                value={website}
                 className="block w-full rounded-sm py-1 px-2 outline-none border-[1px] border-black mt-1 font-normal text-xs"
                 type="url"
                 placeholder="Link your website"
+                onChange={onWebsiteChangeHandler}
+                onBlur={onWebsiteBlurHandler}
               />
             </div>
           </div>
@@ -137,6 +189,7 @@ const ProfileEdit = ({
               Cancel
             </Button>
             <Button
+              onClick={onUpdateProfileHandler}
               className="bg-black text-white rounded-md pt-1 px-3 pb-[5px] mt-4"
               type="button"
             >

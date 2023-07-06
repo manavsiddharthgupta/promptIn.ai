@@ -9,9 +9,12 @@ interface InputFieldState {
 }
 
 const useInputField = (
+  initialInputValue: string | null,
   validateFunc: (value: string) => boolean
 ): InputFieldState => {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState(
+    initialInputValue ? initialInputValue : ''
+  );
   const [isTouched, setIsTouched] = useState(false);
   const isInputValueValid = validateFunc(inputValue);
 

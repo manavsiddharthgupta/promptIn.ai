@@ -22,7 +22,7 @@ export default function SignUp() {
     isTouched: isAvatarNameTouched,
     isInputValueValid: isAvatarNameValid,
     onBlurHandler: onAvatarNameBlurHandler,
-  } = useInputField((value) => {
+  } = useInputField('', (value) => {
     const avatarRegex = /^[A-Za-z0-9]{5,}$/;
     return avatarRegex.test(value);
   });
@@ -33,7 +33,7 @@ export default function SignUp() {
     isTouched: isPasswordTouched,
     isInputValueValid: isPasswordValid,
     onBlurHandler: onPasswordBlurHandler,
-  } = useInputField((value) => {
+  } = useInputField('', (value) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     return passwordRegex.test(value);
   });
@@ -44,7 +44,7 @@ export default function SignUp() {
     isTouched: isConfirmPasswordTouched,
     isInputValueValid: isConfirmPasswordValid,
     onBlurHandler: onConfirmPasswordBlurHandler,
-  } = useInputField((value) => {
+  } = useInputField('', (value) => {
     return value === password && value !== '';
   });
 
