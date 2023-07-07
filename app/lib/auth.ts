@@ -48,7 +48,7 @@ export const authOption: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    session: async ({ session, token }: { session: any; token: any }) => {
+    session: async ({ session, token }) => {
       if (token.id) {
         const userData = await prisma.user.findUnique({
           where: {
@@ -62,27 +62,17 @@ export const authOption: NextAuthOptions = {
           },
         });
 
-        if (userData) {
-          return {
-            ...session,
-            user: {
-              id: token.id,
-              avatarName: userData.avatarName,
-              email: userData.email,
-              image: userData.image,
-              profileTags: userData.profileTags,
-            },
-          };
+        if (userData && token) {
+          session.user.avatarName = userData.avatarName;
+          session.user.email != userData.email;
+          session.user.image = userData.image;
+          session.user.profileTags = userData.profileTags;
+          session.user.id = token.id;
+          return session;
         }
       }
 
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.id,
-        },
-      };
+      return session;
     },
     jwt: ({ token, user }) => {
       if (user) {

@@ -1,8 +1,6 @@
-import {
-  ProfileComponent,
-  ProfileData,
-} from '@/app/components/profile/ProfileComponent';
+import { ProfileComponent } from '@/app/components/profile/ProfileComponent';
 import { getMyProfileData } from '@/app/lib/profile';
+import { ProfileData } from '@/app/lib/types/profile';
 import { notFound } from 'next/navigation';
 
 export const revalidate = 10;

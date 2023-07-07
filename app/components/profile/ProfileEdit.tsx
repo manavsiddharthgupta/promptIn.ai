@@ -10,15 +10,13 @@ import { CropImage } from './Cropper';
 import { ToastContainer } from 'react-toastify';
 import { SetStateAction, useState } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
-import { ProfileData } from './ProfileComponent';
+import { ProfileData } from '@/app/lib/types/profile';
 
 const ProfileEdit = ({
   profileCardData: {
     extraInfo: {
       avatarName: initialAvatarName,
       email: initialEmail,
-      name: initialName,
-      image: initialImage,
       link: initailLink,
       oneLiner: initialOneLiner,
       profileTags,

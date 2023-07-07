@@ -4,21 +4,7 @@ import { ProfileCard } from '@/app/components/profile/ProfileCard';
 import ProfileEdit from '@/app/components/profile/ProfileEdit';
 import { ProfileFeed } from '@/app/components/profile/ProfileFeed';
 import Card from '@/app/ui/Card';
-
-export interface ProfileData {
-  status: number;
-  message: string;
-  extraInfo: {
-    id: string;
-    avatarName: string | null;
-    email: string | null;
-    name: string | null;
-    image: string | null;
-    link: string | null;
-    oneLiner: string | null;
-    profileTags: string[];
-  };
-}
+import { ProfileData } from '@/app/lib/types/profile';
 
 export const ProfileComponent = ({
   params,

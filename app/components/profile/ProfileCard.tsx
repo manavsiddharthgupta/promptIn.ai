@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import avatar from '../../utils/images/avatar.png';
 import { MailIcon, WebLink, EditBtn } from '@/app/ui/Icons';
-import { ProfileData } from './ProfileComponent';
+import { ProfileData } from '@/app/lib/types/profile';
 
 export const ProfileCard = ({
   profileCardData: {
@@ -26,7 +26,9 @@ export const ProfileCard = ({
         src={avatar}
         alt="_profImg"
       />
-      <h1 className="text-black mt-2 font-semibold text-xl">@{avatarName}</h1>
+      <h1 className="text-black mt-2 font-semibold text-xl">
+        @{avatarName ? avatarName : email!.split('@')[0]}
+      </h1>
       <p className="text-[#000000ba] mt-1 text-base text-center">{oneLiner}</p>
       <p className="text-[#000000ba] text-base text-center">
         {profileTags.join(' | ')}
