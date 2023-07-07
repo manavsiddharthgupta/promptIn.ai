@@ -4,8 +4,8 @@ import React from 'react';
 import FeedWrap from './ui/Feed';
 import Search from './components/search bar/Search';
 import { SessionWrap } from './ui/SessionWrap';
-import { DefaultSession } from 'next-auth/core/types';
 import Wrap from './ui/Wrap';
+import { Session } from 'next-auth';
 
 export const metadata = {
   title: 'Find your prompt',
@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
   feed: React.ReactNode;
   modal: React.ReactNode;
-  session: DefaultSession;
+  session: Session;
 }) {
   return (
     <html lang="en">
