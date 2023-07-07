@@ -5,6 +5,7 @@ import FeedWrap from './ui/Feed';
 import Search from './components/search bar/Search';
 import { SessionWrap } from './ui/SessionWrap';
 import { DefaultSession } from 'next-auth/core/types';
+import Wrap from './ui/Wrap';
 
 export const metadata = {
   title: 'Find your prompt',
@@ -28,7 +29,9 @@ export default function RootLayout({
         <body>
           <NavBar />
           {children}
-          <Search />
+          <Wrap>
+            <Search />
+          </Wrap>
           <FeedWrap>{feed}</FeedWrap>
           {modal}
         </body>

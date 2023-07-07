@@ -7,18 +7,21 @@ import useInputField from '@/app/utils/hooks/useInputField';
 import avatar from '../../utils/images/avatar.png';
 import { ImageEdit } from './ImageEdit';
 import { CropImage } from './Cropper';
-import { ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { SetStateAction, useState } from 'react';
-import 'react-toastify/dist/ReactToastify.css';
 import { ProfileData } from '@/app/lib/types/profile';
+import FormFeedback from '@/app/ui/FormFeedback';
+import { useRouter } from 'next/navigation';
 
 const ProfileEdit = ({
   profileCardData: {
     extraInfo: {
+      id: profileId,
       avatarName: initialAvatarName,
       email: initialEmail,
       link: initailLink,
       oneLiner: initialOneLiner,
+      image: initialImage,
       profileTags,
     },
   },
@@ -27,21 +30,21 @@ const ProfileEdit = ({
   profileCardData: ProfileData;
   closeEditModalHandler: () => void;
 }) => {
-  const [croppedImage, setCroppedImage] = useState<string | null>(avatar.src); // initial by database
+  const [croppedImage, setCroppedImage] = useState<string | null>(
+    initialImage ? initialImage : avatar.src
+  ); // initial by database
   const [showCropper, setCropper] = useState<boolean>(false); // cropper or image edit
   const [choosedImg, setChoosedImg] = useState<string | null>(null); // choosed image from file input
+  const [isLoading, setIsLoading] = useState<boolean>(false); // loading state
 
-  const onSetChoosedImg = (value: SetStateAction<string | null>) => {
-    setChoosedImg(value);
-  };
-
+  const router = useRouter();
   const {
     inputValue: avatarName,
     isInputValueValid: isAvatarNameValid,
     onChangeHandler: onAvatarNameChangeHandler,
     isTouched: isAvatarNameTouched,
     onBlurHandler: onAvatarNameBlurHandler,
-  } = useInputField(initialAvatarName, () => true);
+  } = useInputField(initialAvatarName, (inputValue) => inputValue.length > 0);
 
   const {
     inputValue: oneLiner,
@@ -49,7 +52,7 @@ const ProfileEdit = ({
     onChangeHandler: onOneLinerChangeHandler,
     isTouched: isOneLinerTouched,
     onBlurHandler: onOneLinerBlurHandler,
-  } = useInputField(initialOneLiner, () => true);
+  } = useInputField(initialOneLiner, (inputValue) => inputValue.length > 0);
 
   const {
     inputValue: tags,
@@ -95,15 +98,69 @@ const ProfileEdit = ({
     return pattern.test(url);
   });
 
+  const onSetChoosedImg = (value: SetStateAction<string | null>) => {
+    setChoosedImg(value);
+  };
+
   const onUpdateProfileHandler = () => {
-    console.log('update profile : ', {
-      avatarName,
-      oneLiner,
-      tags,
-      email,
-      website,
-      image: croppedImage,
-    });
+    setIsLoading(true);
+    if (
+      isAvatarNameValid &&
+      isoneLinerValid &&
+      isTagsValid &&
+      isEmailValid &&
+      isWebsiteValid
+    ) {
+      const changedData: Record<string, any> = {};
+      isAvatarNameTouched && (changedData['avatarName'] = avatarName);
+      isOneLinerTouched && (changedData['oneLiner'] = oneLiner);
+      isTagsTouched &&
+        (changedData['profileTags'] = tags.split('|').map((tag) => tag.trim()));
+      isEmailTouched && (changedData['email'] = email);
+      isWebsiteTouched && (changedData['link'] = website);
+
+      console.log('changedData : ', changedData);
+      fetch('http://localhost:3000/api/user/' + profileId, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...changedData,
+          image: croppedImage,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setIsLoading(false);
+          console.log(data);
+          if (data.status === 200) {
+            toast.success('Profile updated successfully');
+            router.refresh();
+            closeEditModalHandler();
+          } else {
+            toast.error(data.message);
+          }
+        });
+    } else {
+      setIsLoading(false);
+      toast.error('Please fill all the fields correctly');
+    }
+    // console.log('update profile : ', {
+    //   avatarName,
+    //   oneLiner,
+    //   tags,
+    //   email,
+    //   website,
+    //   image: croppedImage,
+    // });
+    // console.log(
+    //   isAvatarNameValid,
+    //   isoneLinerValid,
+    //   isTagsValid,
+    //   isEmailValid,
+    //   isWebsiteValid
+    // );
   };
 
   return (
@@ -138,6 +195,9 @@ const ProfileEdit = ({
               value={avatarName}
               placeholder="Avatar Name"
             />
+            {isAvatarNameTouched && !isAvatarNameValid && (
+              <FormFeedback>Avatar name is invalid</FormFeedback>
+            )}
             <InputField
               type="text"
               onChangeHandler={onOneLinerChangeHandler}
@@ -146,6 +206,9 @@ const ProfileEdit = ({
               value={oneLiner}
               placeholder="Add a one liner"
             />
+            {isOneLinerTouched && !isoneLinerValid && (
+              <FormFeedback>Your oneliner is invalid</FormFeedback>
+            )}
             <InputField
               type="text"
               onChangeHandler={onTagsChangeHandler}
@@ -154,6 +217,9 @@ const ProfileEdit = ({
               value={tags}
               placeholder="E.g. Developer | AI | Prompter"
             />
+            {isTagsTouched && !isTagsValid && (
+              <FormFeedback>Your tags are invalid</FormFeedback>
+            )}
             <label className="text-sm block mt-3">Social Accounts</label>
             <div className="flex gap-2 items-center">
               <MailIcon />
@@ -166,6 +232,11 @@ const ProfileEdit = ({
                 onBlur={onEmailBlurHandler}
               />
             </div>
+            {isEmailTouched && !isEmailValid && (
+              <FormFeedback>
+                <span className="text-xs">Your Email is not valid</span>
+              </FormFeedback>
+            )}
             <div className="flex gap-2 items-center">
               <WebLink />
               <input
@@ -177,6 +248,11 @@ const ProfileEdit = ({
                 onBlur={onWebsiteBlurHandler}
               />
             </div>
+            {isWebsiteTouched && !isWebsiteValid && (
+              <FormFeedback>
+                <span className="text-xs">Your Link is not valid</span>
+              </FormFeedback>
+            )}
           </div>
           <div className="px-8 pb-4 flex justify-end gap-4">
             <Button
@@ -190,26 +266,14 @@ const ProfileEdit = ({
               onClick={onUpdateProfileHandler}
               className="bg-black text-white rounded-md pt-1 px-3 pb-[5px] mt-4"
               type="button"
+              disabled={isLoading}
             >
-              Save
+              {isLoading ? 'Saving...' : 'Save'}
             </Button>
           </div>
         </div>
       </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
     </ModalCard>
   );
 };
-
 export default ProfileEdit;

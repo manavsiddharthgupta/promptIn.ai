@@ -45,7 +45,7 @@ export async function PATCH(
   context: { params: { id: string } }
 ) {
   const session = await getAuthSession();
-  if (!session) {
+  if (!session || session.user.id !== context.params.id) {
     return NextResponse.json({
       status: 401,
       message: 'you are not autorized',
@@ -54,28 +54,41 @@ export async function PATCH(
 
   const { id } = context.params;
 
-  const { avatarName, email, name, image, link, oneLiner, profileTags } =
-    await request.json();
+  const changedData = await request.json();
+
+  const { avatarName } = changedData;
+
+  if (avatarName) {
+    const existingProfile = await prisma.user.findFirst({
+      where: {
+        avatarName: avatarName,
+        NOT: {
+          id: id,
+        },
+      },
+    });
+
+    if (existingProfile) {
+      return NextResponse.json({
+        status: 400,
+        message: 'Avatar already exists',
+      });
+    }
+  }
 
   const profile = await prisma.user.update({
     where: {
       id: id,
     },
     data: {
-      avatarName: avatarName,
-      email: email,
-      name: name,
-      image: image,
-      link: link,
-      oneLiner: oneLiner,
-      profileTags: profileTags,
+      ...changedData,
     },
   });
-
   if (!profile) {
     return NextResponse.json({
       status: 401,
       message: 'profile not updated',
+      extraInfo: profile,
     });
   }
 

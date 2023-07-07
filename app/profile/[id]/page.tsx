@@ -3,7 +3,9 @@ import { getMyProfileData } from '@/app/lib/profile';
 import { ProfileData } from '@/app/lib/types/profile';
 import { notFound } from 'next/navigation';
 
-export const revalidate = 10;
+// export const dynamic = 'force-dynamic';
+
+// export const revalidate = 10;
 
 const ProfilePage = async ({ params }: { params: { id: string } }) => {
   const profileDetails: ProfileData = await getMyProfileData(params.id);

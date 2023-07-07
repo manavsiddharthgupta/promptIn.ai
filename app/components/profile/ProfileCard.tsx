@@ -2,29 +2,32 @@ import Image from 'next/image';
 import avatar from '../../utils/images/avatar.png';
 import { MailIcon, WebLink, EditBtn } from '@/app/ui/Icons';
 import { ProfileData } from '@/app/lib/types/profile';
+import { useSession } from 'next-auth/react';
 
 export const ProfileCard = ({
   profileCardData: {
-    extraInfo: { avatarName, email, name, image, link, oneLiner, profileTags },
+    extraInfo: { id, avatarName, email, image, link, oneLiner, profileTags },
   },
   openEditModalHandler,
 }: {
   openEditModalHandler: () => void;
   profileCardData: ProfileData;
 }) => {
-  console.log(avatarName, email, name, image, link, oneLiner, profileTags);
+  const { data: session, status } = useSession();
   return (
     <div className="flex items-center my-12 flex-col max-w-2xl min-[450px]:p-8 p-4 hover:bg-[#00000012] mx-auto rounded-lg transition-all ease-in-out duration-200 relative">
       <div
         onClick={openEditModalHandler}
         className="absolute right-4 top-4 cursor-pointer"
       >
-        <EditBtn />
+        {status === 'authenticated' && session.user.id === id && <EditBtn />}
       </div>
       <Image
         className="w-32 h-32 border-[1px] border-black rounded-full"
-        src={avatar}
+        src={image ? image : avatar}
         alt="_profImg"
+        width={128}
+        height={128}
       />
       <h1 className="text-black mt-2 font-semibold text-xl">
         @{avatarName ? avatarName : email!.split('@')[0]}
