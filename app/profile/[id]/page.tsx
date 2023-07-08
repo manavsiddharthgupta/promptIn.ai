@@ -5,6 +5,10 @@ import { notFound } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
 
+// export const dynamicParams = true; default
+
+// export const dynamic = 'auto'; default
+
 // export const revalidate = 10;
 
 const ProfilePage = async ({ params }: { params: { id: string } }) => {
