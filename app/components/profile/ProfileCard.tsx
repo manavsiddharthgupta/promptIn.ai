@@ -23,11 +23,11 @@ export const ProfileCard = ({
         {status === 'authenticated' && session.user.id === id && <EditBtn />}
       </div>
       <Image
-        className="w-32 h-32 border-[1px] border-black rounded-full"
+        className="w-36 h-36 border-[1px] border-[#454545] rounded-full"
         src={image ? image : avatar}
         alt="_profImg"
-        width={128}
-        height={128}
+        width={144}
+        height={144}
       />
       <h1 className="text-black mt-2 font-semibold text-xl">
         @{avatarName ? avatarName : email!.split('@')[0]}
