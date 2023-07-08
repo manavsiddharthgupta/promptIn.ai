@@ -1,11 +1,11 @@
 'use client';
-import EmailIcon from '@mui/icons-material/Email';
 import LinkIcon from '@mui/icons-material/Link';
-import EditIcon from '@mui/icons-material/Edit';
-import { IconButton, Tooltip } from '@mui/material';
+import { Tooltip } from '@mui/material';
+import { faEnvelope, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const MailIcon = () => {
-  return <EmailIcon fontSize="small" />;
+  return <FontAwesomeIcon className="text-[#454545]" icon={faEnvelope} />;
 };
 
 export const WebLink = () => {
@@ -15,9 +15,10 @@ export const WebLink = () => {
 export const EditBtn = () => {
   return (
     <Tooltip title="Edit Profile">
-      <IconButton className="hover:bg-black bg-[#0000005a]">
-        <EditIcon className="text-white" fontSize="small" />
-      </IconButton>
+      <FontAwesomeIcon
+        className="text-white hover:bg-black bg-[#0000005a] rounded-full p-2 transition-all ease-in-out duration-300 cursor-pointer"
+        icon={faPenToSquare}
+      />
     </Tooltip>
   );
 };
