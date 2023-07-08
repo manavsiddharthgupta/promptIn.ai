@@ -34,7 +34,7 @@ model User {
 
 model Account {
   id                String   @id @default(uuid())
-  userId            String   @map("user_id")
+  userId            String
   type              String?
   provider          String
   providerAccountId String   @map("provider_account_id")
@@ -54,7 +54,7 @@ model Account {
 
 model Session {
   id           String   @id @default(cuid())
-  userId       String?  @map("user_id")
+  userId       String?
   sessionToken String   @unique @map("session_token") @db.Text
   accessToken  String?  @map("access_token") @db.Text
   expires      DateTime

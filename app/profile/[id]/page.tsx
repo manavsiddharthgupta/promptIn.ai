@@ -1,28 +1,22 @@
-'use client';
-import { ProfileCard } from '@/app/components/profile/ProfileCard';
-import ProfileEdit from '@/app/components/profile/ProfileEdit';
-import { ProfileFeed } from '@/app/components/profile/ProfileFeed';
-import Card from '@/app/ui/Card';
-import { useState } from 'react';
+import { ProfileComponent } from '@/app/components/profile/ProfileComponent';
+import { getMyProfileData } from '@/app/lib/profile';
+import { ProfileData } from '@/app/lib/types/profile';
+import { notFound } from 'next/navigation';
 
-const ProfilePage = ({ params }: { params: { id: string } }) => {
-  const [showEditModal, setShowEditModal] = useState(false);
+export const dynamic = 'force-dynamic';
 
-  const openEditModal = () => {
-    setShowEditModal(true);
-  };
+// export const revalidate = 10;
 
-  const closeEditModal = () => {
-    setShowEditModal(false);
-  };
+const ProfilePage = async ({ params }: { params: { id: string } }) => {
+  const profileDetails: ProfileData = await getMyProfileData(params.id);
+
+  if (profileDetails.status !== 200) {
+    return notFound();
+  }
 
   return (
     <main className="min-h-screen">
-      <Card>
-        <ProfileCard openEditModalHandler={openEditModal} />
-        <ProfileFeed params={params} />
-      </Card>
-      {showEditModal && <ProfileEdit closeEditModalHandler={closeEditModal} />}
+      <ProfileComponent params={params} profileDetails={profileDetails} />
     </main>
   );
 };

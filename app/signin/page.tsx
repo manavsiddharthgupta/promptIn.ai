@@ -23,7 +23,7 @@ export default function SignIn() {
     isInputValueValid: isAvatarNameValid,
     onBlurHandler: onAvatarNameBlurHandler,
     isTouched: isAvatarNameTouched,
-  } = useInputField((value) => {
+  } = useInputField('', (value) => {
     const avatarRegex = /^[A-Za-z0-9]{5,}$/;
     return avatarRegex.test(value);
   });
@@ -34,7 +34,7 @@ export default function SignIn() {
     isInputValueValid: isPasswordValid,
     onBlurHandler: onPasswordBlurHandler,
     isTouched: isPasswordTouched,
-  } = useInputField((value) => {
+  } = useInputField('', (value) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     return passwordRegex.test(value);
   });

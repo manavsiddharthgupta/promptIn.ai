@@ -55,7 +55,6 @@ export const CropImage = ({
   const showCroppedImage = useCallback(async () => {
     try {
       const croppedImage = await getCroppedImg(realImg, croppedAreaPixels!);
-      setCroppedImage(croppedImage!);
 
       const blobRes = await fetch(croppedImage!);
       const blob = await blobRes.blob();
@@ -63,7 +62,9 @@ export const CropImage = ({
         type: 'image/jpeg',
       });
       const response = await startUpload([file]);
-      console.log(response); // save on database
+      if (response) {
+        setCroppedImage(response[0].fileUrl);
+      }
       onSetCropper(false);
     } catch (e) {
       console.error(e);

@@ -80,10 +80,12 @@ const NavBar = () => {
         {isLoggedIn && (
           <div ref={profileBtnRef}>
             <Image
-              src={avatar}
+              src={session?.user?.image || avatar}
               alt="avatar"
               onClick={onProfileBtnHandler}
               className="drop-shadow-sm min-w-[2rem] min-[600px]:w-10 min-[600px]:h-10 w-8 h-8 rounded-full cursor-pointer transition-all ease-in-out duration-300"
+              width={32}
+              height={32}
             />
           </div>
         )}
