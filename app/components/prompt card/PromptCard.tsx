@@ -1,29 +1,31 @@
 import InteractiveIconActions from './InteractiveIconActions';
 import PromptHeader from './PromptHeader';
 import { PromptCardOutline } from './PromptCardOutline';
-import { PromptHashTags } from './PromptHastags';
+import { PromptAllTags } from './PromptHastags';
 import { PromptBody } from './PromptBody';
+import { Prompt } from '@/app/lib/types/prompts';
 
 const PromptCard = ({
-  promptData,
+  promptData: { title, body, _count: count, createdAt, creator, tags },
 }: {
-  promptData: {
-    title: string;
-    prompt: string;
-  };
+  promptData: Prompt;
 }) => {
   return (
-    <PromptCardOutline className="mb-4 break-inside-avoid p-[10px] border-[1px] border-black">
-      <PromptHeader userNameSize="[13px]" />
+    <PromptCardOutline className="mb-4 break-inside-avoid p-[10px] border-[1px] border-[#cacacac7]">
+      <PromptHeader
+        createdAt={createdAt}
+        creator={creator}
+        userNameSize="[13px]"
+      />
       <PromptBody
-        promptDesc={promptData.prompt}
-        promptTitle={promptData.title}
+        promptDesc={body}
+        promptTitle={title}
         PromptTitleSize="[15px]"
         PromptDescSize="[13px]"
         extraStyle="line-clamp-12"
       />
-      <PromptHashTags />
-      <InteractiveIconActions />
+      <PromptAllTags tags={tags} />
+      <InteractiveIconActions count={count.starredby} />
     </PromptCardOutline>
   );
 };

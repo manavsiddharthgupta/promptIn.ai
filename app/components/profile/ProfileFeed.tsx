@@ -48,7 +48,7 @@ export const ProfileFeed = ({ params }: { params: { id: string } }) => {
         })}
       </div>
       <div className="max-w-4xl mx-auto min-[450px]:px-6 py-12">
-        {feedComponent}
+        {/* {feedComponent} */}
       </div>
     </>
   );

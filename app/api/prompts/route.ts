@@ -5,8 +5,26 @@ const prisma = new PrismaClient();
 
 export async function GET(request: Request) {
   const prompts = await prisma.prompt.findMany({
-    include: {
+    select: {
+      id: true,
+      title: true,
+      body: true,
       tags: true,
+      createdBy: true,
+      createdAt: true,
+      _count: {
+        select: {
+          starredby: true,
+        },
+      },
+      creator: {
+        select: {
+          avatarName: true,
+          image: true,
+          id: true,
+          profileTags: true,
+        },
+      },
     },
     orderBy: {
       createdAt: 'desc',
