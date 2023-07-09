@@ -19,7 +19,7 @@ const Feed = ({
       {dataArray.map((data) => {
         return (
           <Link href={`/prompts/${data.id}`} key={data.id}>
-            <PromptCard promptData={data} />
+            {/* <PromptCard promptData={data} /> */}
           </Link>
         );
       })}

@@ -1,7 +1,7 @@
 'use client';
 import PromptCardIcons from '../../ui/PromptCardIcons';
 
-const InteractiveIconActions = () => {
+const InteractiveIconActions = ({ count }: { count: number }) => {
   const onClickHandler = (event: { preventDefault: () => void }) => {
     event.preventDefault();
   };
@@ -13,7 +13,7 @@ const InteractiveIconActions = () => {
         className="flex gap-[1px] items-center text-gray-600 hover:text-blue-500 cursor-pointer transition-all ease-in-out duration-150"
       >
         <PromptCardIcons iconType="star" selected={false} />
-        <span className="text-xs font-semibold mt-1 text-inherit">56</span>
+        <span className="text-xs font-semibold mt-1 text-inherit">{count}</span>
       </div>
       <div
         onClick={onClickHandler}

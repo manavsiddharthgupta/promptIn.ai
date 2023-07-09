@@ -1,19 +1,31 @@
 import Link from 'next/link';
 import PromptCard from '../components/prompt card/PromptCard';
 import Card from '../ui/Card';
-import dataArray from '../utils/store/sampledata';
+import { getAllPromptsData } from '../lib/prompts';
+import { Prompt } from '../lib/types/prompts';
 
-const Feed = () => {
+export const dynamic = 'force-dynamic';
+
+const Feed = async () => {
+  const prompts = await getAllPromptsData();
+
+  let promptFeedComponent = prompts.extraInfo.map((data: Prompt) => {
+    return (
+      <Link href={`/prompts/${data.id}`} key={data.id}>
+        <PromptCard promptData={data} />
+      </Link>
+    );
+  });
+
+  if (prompts.extraInfo.length === 0) {
+    promptFeedComponent = (
+      <p className="text-sm font-bold text-center">No prompts found</p>
+    );
+  }
   return (
     <Card>
       <section className="columns-1 min-[600px]:columns-2 min-[860px]:columns-3">
-        {dataArray.map((data) => {
-          return (
-            <Link href={`/prompts/${data.id}`} key={data.id}>
-              <PromptCard promptData={data} />
-            </Link>
-          );
-        })}
+        {promptFeedComponent}
       </section>
     </Card>
   );

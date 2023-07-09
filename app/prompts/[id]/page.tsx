@@ -2,31 +2,41 @@ import InteractiveIconActions from '@/app/components/prompt card/InteractiveIcon
 import { PromptBody } from '@/app/components/prompt card/PromptBody';
 import { PromptCardOutline } from '@/app/components/prompt card/PromptCardOutline';
 import PromptDismissal from '@/app/components/prompt card/PromptDismissal';
-import { PromptHashTags } from '@/app/components/prompt card/PromptHastags';
+import { PromptAllTags } from '@/app/components/prompt card/PromptHastags';
 import PromptHeader from '@/app/components/prompt card/PromptHeader';
-import dataArray from '@/app/utils/store/sampledata';
+import { Prompt as Promptype } from '../../lib/types/prompts';
+import { getPromptData } from '@/app/lib/prompts';
+import { notFound } from 'next/navigation';
 
-const PromptPage = ({ params }: { params: { id: string } }) => {
-  const filteredData = dataArray.filter((data) => data.id === +params.id);
-  const promptData = {
-    title: filteredData[0].title,
-    prompt: filteredData[0].prompt,
+const PromptPage = async ({ params }: { params: { id: string } }) => {
+  const prompt = await getPromptData(params.id);
+  if (prompt.status !== 200) return notFound();
+
+  const {
+    extraInfo: { body, title, tags, _count: count, createdAt, creator },
+  } = prompt as {
+    extraInfo: Promptype;
   };
+
   return (
     <div className="h-[calc(100vh-72px)] flex justify-center items-center">
       <div className="w-full max-w-[800px] bg-white rounded-md">
         <PromptDismissal textColor="black" />
         <PromptCardOutline className="p-4">
-          <PromptHeader userNameSize="[13px]" />
+          <PromptHeader
+            userNameSize="[13px]"
+            createdAt={createdAt}
+            creator={creator}
+          />
           <PromptBody
-            promptDesc={promptData.prompt}
-            promptTitle={promptData.title}
+            promptDesc={body}
+            promptTitle={title}
             PromptTitleSize="[16px]"
             PromptDescSize="[14px]"
             extraStyle="max-h-[200px] overflow-auto"
           />
-          <PromptHashTags />
-          <InteractiveIconActions />
+          <PromptAllTags tags={tags} />
+          <InteractiveIconActions count={count.starredby} />
         </PromptCardOutline>
       </div>
     </div>
