@@ -42,6 +42,7 @@ const PromptModal = async ({ params }: { params: { id: string } }) => {
               userNameSize="[13px]"
               createdAt={createdAt}
               creator={creator}
+              prompt={body}
             />
             <PromptBody
               promptDesc={body}

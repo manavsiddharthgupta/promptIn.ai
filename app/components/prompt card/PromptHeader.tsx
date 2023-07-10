@@ -1,9 +1,11 @@
 'use client';
 import Image from 'next/image';
-import copyIcon from '../../utils/images/copy_icon.png';
 import { createdAtTimeStamp } from '@/app/lib/prompts';
 import imgAvatar from '@/app/utils/images/avatar.png';
 import { useRouter } from 'next/navigation';
+import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
+import DoneAllOutlinedIcon from '@mui/icons-material/DoneAllOutlined';
+import { useState } from 'react';
 
 interface PromptHeaderProps {
   creator?: {
@@ -14,13 +16,16 @@ interface PromptHeaderProps {
   };
   createdAt: string;
   userNameSize?: string;
+  prompt: string;
 }
 
 const PromptHeader = ({
+  prompt,
   creator,
   createdAt,
   userNameSize,
 }: PromptHeaderProps) => {
+  const [isCopying, setIsCopying] = useState(false);
   const router = useRouter();
   const timeStamp = createdAtTimeStamp(createdAt);
 
@@ -32,6 +37,17 @@ const PromptHeader = ({
   const onClickHandler = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     router.push(`/profile/${id}`);
+  };
+
+  const onCopyHandler = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    if (!isCopying) {
+      setIsCopying(true);
+      navigator.clipboard.writeText(prompt);
+      setTimeout(() => {
+        setIsCopying(false);
+      }, 2000);
+    }
   };
   return (
     <div className="flex gap-2 items-center justify-between">
@@ -63,10 +79,15 @@ const PromptHeader = ({
         </div>
       </div>
       <div
-        // copy to clipboard
-        className={`border-[1px] cursor-pointer border-slate-400 bg-slate-300 min-w-[1.5rem] min-h-[1.5rem] h-6 rounded-full`}
+        onClick={onCopyHandler}
+        className="border-[1px] cursor-pointer border-slate-300 min-w-[1.5rem] min-h-[1.5rem] h-6 rounded-full flex items-center justify-center"
       >
-        <Image className="w-full h-full p-[5px]" src={copyIcon} alt="icon" />
+        {!isCopying && (
+          <ContentCopyOutlinedIcon className="text-slate-500 text-xs" />
+        )}
+        {isCopying && (
+          <DoneAllOutlinedIcon className="text-green-600 text-xs" />
+        )}
       </div>
     </div>
   );

@@ -16,11 +16,12 @@ const PromptCard = ({
         createdAt={createdAt}
         creator={creator}
         userNameSize="[13px]"
+        prompt={body}
       />
       <PromptBody
         promptDesc={body}
         promptTitle={title}
-        PromptTitleSize="[15px]"
+        PromptTitleSize="text-sm"
         PromptDescSize="[13px]"
         extraStyle="line-clamp-12"
       />

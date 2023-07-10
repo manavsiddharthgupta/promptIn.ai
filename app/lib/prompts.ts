@@ -1,6 +1,5 @@
 export const getAllPromptsData = async () => {
   const data = await fetch('http://localhost:3000/api/prompts');
-  console.log('getting all data');
   const prompts = await data.json();
   return prompts;
 };

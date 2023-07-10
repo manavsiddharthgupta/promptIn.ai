@@ -28,7 +28,7 @@ const CreatePrompt = () => {
     isInputValueValid: isTitleValid,
     onBlurHandler: onTitleBlur,
     isTouched: isTitleTouched,
-  } = useInputField('', () => true);
+  } = useInputField('', (title) => title.length > 0);
 
   const {
     inputValue: prompt,
@@ -36,18 +36,27 @@ const CreatePrompt = () => {
     isInputValueValid: isPromptValid,
     onBlurHandler: onPromptBlur,
     isTouched: isPromptTouched,
-  } = useInputField('', () => true);
+  } = useInputField('', (prompt) => prompt.length > 17);
 
   const { data: session } = useSession() as { data: Session };
   const router = useRouter();
+
+  console.log(isPromptValid, isTitleValid);
 
   const myId = session?.user?.id;
 
   const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsLoading(true);
-    console.log(title, prompt, allTags, myId);
-    if (isPromptValid && isTitleValid && allTags.length > 0 && myId) {
+
+    if (
+      isPromptValid &&
+      isTitleValid &&
+      allTags.length > 0 &&
+      myId &&
+      isPromptTouched &&
+      isTitleTouched
+    ) {
+      setIsLoading(true);
       const createdResponse = await postPromptData({
         title,
         body: prompt,
@@ -64,6 +73,8 @@ const CreatePrompt = () => {
         toast.error('Prompt creation failed');
         setIsLoading(false);
       }
+    } else {
+      toast.error('Please fill all the fields');
     }
   };
 
