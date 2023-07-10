@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
@@ -11,9 +12,60 @@ import Link from 'next/link';
 import { useTagsField } from '../utils/hooks/useTagsField';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useInputField from '../utils/hooks/useInputField';
+import { useSession } from 'next-auth/react';
+import { Session } from 'next-auth';
+import { postPromptData } from '../lib/prompts';
+import { useRouter } from 'next/navigation';
 
 const CreatePrompt = () => {
   const { allTags, inputRef, onKeyDownEvent } = useTagsField();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const {
+    inputValue: title,
+    onChangeHandler: onTitleChange,
+    isInputValueValid: isTitleValid,
+    onBlurHandler: onTitleBlur,
+    isTouched: isTitleTouched,
+  } = useInputField('', () => true);
+
+  const {
+    inputValue: prompt,
+    onChangeHandler: onPromptChange,
+    isInputValueValid: isPromptValid,
+    onBlurHandler: onPromptBlur,
+    isTouched: isPromptTouched,
+  } = useInputField('', () => true);
+
+  const { data: session } = useSession() as { data: Session };
+  const router = useRouter();
+
+  const myId = session?.user?.id;
+
+  const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsLoading(true);
+    console.log(title, prompt, allTags, myId);
+    if (isPromptValid && isTitleValid && allTags.length > 0 && myId) {
+      const createdResponse = await postPromptData({
+        title,
+        body: prompt,
+        tags: allTags,
+        createdBy: myId,
+      });
+      console.log(createdResponse);
+      if (createdResponse.status === 200) {
+        toast.success('Prompt created successfully');
+        setTimeout(() => {
+          router.push('/');
+        }, 2000);
+      } else {
+        toast.error('Prompt creation failed');
+        setIsLoading(false);
+      }
+    }
+  };
 
   return (
     <>
@@ -28,21 +80,28 @@ const CreatePrompt = () => {
           </Link>
           <p className="font-bold text-4xl my-4">Create your prompt</p>
           <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              toast.success('Prompt Created');
-            }}
+            onSubmit={onSubmitHandler}
             className="w-full flex flex-col gap-8"
           >
-            <TitleInputField />
-            <PromptTextArea />
+            <TitleInputField
+              inputValue={title}
+              onBlurHandler={onTitleBlur}
+              onChangeHandler={onTitleChange}
+            />
+            <PromptTextArea
+              inputValue={prompt}
+              onBlurHandler={onPromptBlur}
+              onChangeHandler={onPromptChange}
+            />
             <PromptTagsField
               allTags={allTags}
               inpRef={inputRef}
               keyEvent={onKeyDownEvent}
             />
             <PromptHashTagField />
-            <Button type="submit">Create prompt</Button>
+            <Button type="submit">
+              {isLoading ? 'Creating...' : 'Create prompt'}
+            </Button>
           </form>
         </Card>
       </main>

@@ -1,11 +1,36 @@
 export const getAllPromptsData = async () => {
   const data = await fetch('http://localhost:3000/api/prompts');
+  console.log('getting all data');
   const prompts = await data.json();
   return prompts;
 };
 
 export const getPromptData = async (id: string) => {
   const data = await fetch(`http://localhost:3000/api/prompts/${id}`);
+  const prompt = await data.json();
+  return prompt;
+};
+
+export const postPromptData = async ({
+  createdBy,
+  title,
+  body,
+  tags,
+}: {
+  createdBy: string;
+  title: string;
+  body: string;
+  tags: string[];
+}) => {
+  const data = await fetch('http://localhost:3000/api/prompts', {
+    method: 'POST',
+    body: JSON.stringify({
+      createdBy: createdBy,
+      title: title,
+      body: body,
+      tags: tags,
+    }),
+  });
   const prompt = await data.json();
   return prompt;
 };
