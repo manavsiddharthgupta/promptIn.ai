@@ -10,6 +10,30 @@ export const getPromptData = async (id: string) => {
   return prompt;
 };
 
+export const postPromptData = async ({
+  createdBy,
+  title,
+  body,
+  tags,
+}: {
+  createdBy: string;
+  title: string;
+  body: string;
+  tags: string[];
+}) => {
+  const data = await fetch('http://localhost:3000/api/prompts', {
+    method: 'POST',
+    body: JSON.stringify({
+      createdBy: createdBy,
+      title: title,
+      body: body,
+      tags: tags,
+    }),
+  });
+  const prompt = await data.json();
+  return prompt;
+};
+
 export const createdAtTimeStamp = (createdAt: string): string => {
   const currentTime = new Date();
   const timestamp = new Date(createdAt);

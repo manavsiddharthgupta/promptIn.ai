@@ -2,7 +2,9 @@ import { useState, ChangeEvent } from 'react';
 
 interface InputFieldState {
   inputValue: string;
-  onChangeHandler: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChangeHandler: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
   onBlurHandler: () => void;
   isInputValueValid: boolean;
   isTouched: boolean;
@@ -18,7 +20,9 @@ const useInputField = (
   const [isTouched, setIsTouched] = useState(false);
   const isInputValueValid = validateFunc(inputValue);
 
-  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setInputValue(event.target.value);
   };
 

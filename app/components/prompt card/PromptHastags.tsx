@@ -7,7 +7,9 @@ export const PromptAllTags = ({
     id: string;
   }[];
 }) => {
-  const promptTags = tags.map((tag) => <PormptTag tag={tag.name} />);
+  const promptTags = tags.map((tag) => (
+    <PormptTag key={tag.slug} tag={tag.name} />
+  ));
   return <div className="mt-[2px] px-1 font-normal w-full">{promptTags}</div>;
 };
 
