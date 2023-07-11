@@ -4,8 +4,19 @@ import { useSearchParams } from 'next/navigation';
 import { MyPrompts } from './MyPrompts';
 import { StarredPrompts } from './StarredPrompts';
 import { BookmarkedPrompts } from './BookmarkedPrompts';
+import { Prompt } from '@/app/lib/types/prompts';
 
-export const ProfileFeed = ({ params }: { params: { id: string } }) => {
+export const ProfileFeed = ({
+  params,
+  bookmarked,
+  starred,
+  createdPrompts,
+}: {
+  params: { id: string };
+  bookmarked: Prompt[];
+  starred: Prompt[];
+  createdPrompts: Prompt[];
+}) => {
   const path = '/profile/' + params.id;
 
   let currentFeed = useSearchParams().get('feed');
@@ -13,12 +24,12 @@ export const ProfileFeed = ({ params }: { params: { id: string } }) => {
     currentFeed = 'prompts';
   }
 
-  let feedComponent = <MyPrompts />;
+  let feedComponent = <MyPrompts createdPrompts={createdPrompts} />;
 
   if (currentFeed === 'starred') {
-    feedComponent = <StarredPrompts />;
+    feedComponent = <StarredPrompts starredPrompts={starred} />;
   } else if (currentFeed === 'bookmarked') {
-    feedComponent = <BookmarkedPrompts />;
+    feedComponent = <BookmarkedPrompts bookmarkedPrompts={bookmarked} />;
   }
 
   const feeds = [
@@ -47,9 +58,7 @@ export const ProfileFeed = ({ params }: { params: { id: string } }) => {
           );
         })}
       </div>
-      <div className="max-w-4xl mx-auto min-[450px]:px-6 py-12">
-        {/* {feedComponent} */}
-      </div>
+      <div className="mx-auto min-[450px]:px-6 py-12">{feedComponent}</div>
     </>
   );
 };

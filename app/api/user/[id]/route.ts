@@ -10,6 +10,59 @@ export async function GET(
 ) {
   const { id } = context.params;
 
+  const promptSchema = {
+    select: {
+      prompt: {
+        select: {
+          id: true,
+          title: true,
+          body: true,
+          tags: true,
+          creator: {
+            select: {
+              avatarName: true,
+              image: true,
+              id: true,
+              profileTags: true,
+            },
+          },
+          createdAt: true,
+          _count: {
+            select: {
+              starredby: true,
+            },
+          },
+        },
+      },
+    },
+  };
+
+  const createdPrompts = await prisma.prompt.findMany({
+    where: {
+      createdBy: id,
+    },
+    select: {
+      id: true,
+      title: true,
+      body: true,
+      tags: true,
+      creator: {
+        select: {
+          avatarName: true,
+          image: true,
+          id: true,
+          profileTags: true,
+        },
+      },
+      createdAt: true,
+      _count: {
+        select: {
+          starredby: true,
+        },
+      },
+    },
+  });
+
   const profile = await prisma.user.findUnique({
     where: {
       id: id,
@@ -23,6 +76,8 @@ export async function GET(
       link: true,
       oneLiner: true,
       profileTags: true,
+      bookmarkedPrompt: promptSchema,
+      starredPrompt: promptSchema,
     },
   });
 
@@ -32,11 +87,15 @@ export async function GET(
       message: 'profile not found',
     });
   }
+  const newProfile = {
+    ...profile,
+    createdPrompts,
+  };
 
   return NextResponse.json({
     status: 200,
     message: 'profile fetched successfully',
-    extraInfo: profile,
+    extraInfo: newProfile,
   });
 }
 
