@@ -24,6 +24,7 @@ const PromptPage = async ({ params }: { params: { id: string } }) => {
         <PromptDismissal textColor="black" />
         <PromptCardOutline className="p-4">
           <PromptHeader
+            prompt={body}
             userNameSize="[13px]"
             createdAt={createdAt}
             creator={creator}

@@ -1,3 +1,5 @@
+import { Prompt } from './prompts';
+
 export interface ProfileData {
   status: number;
   message: string;
@@ -10,5 +12,8 @@ export interface ProfileData {
     link: string | null;
     oneLiner: string | null;
     profileTags: string[];
+    bookmarkedPrompt: Prompt[];
+    createdPrompts: Prompt[];
+    starredPrompt: Prompt[];
   };
 }
