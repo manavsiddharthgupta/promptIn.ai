@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import { createdAtTimeStamp } from '@/app/lib/prompts';
 import imgAvatar from '@/app/utils/images/avatar.png';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import copy from '@/app/utils/images/copy.png';
 import tick from '@/app/utils/images/double-tick.png';
 import { toast } from 'react-toastify';
@@ -28,6 +28,7 @@ const PromptHeader = ({
 }: PromptHeaderProps) => {
   const [isCopying, setIsCopying] = useState(false);
   const router = useRouter();
+  const path = usePathname();
   const timeStamp = createdAtTimeStamp(createdAt);
 
   const avatar = creator ? creator.avatarName : 'anonymous';
@@ -37,7 +38,16 @@ const PromptHeader = ({
 
   const onClickHandler = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    router.push(`/profile/${id}`);
+    console.log(path);
+
+    if (path.startsWith('/prompts')) {
+      router.back();
+      setTimeout(() => {
+        router.push(`/profile/${id}`);
+      }, 100);
+    } else {
+      router.push(`/profile/${id}`);
+    }
   };
 
   const onCopyHandler = (event: { preventDefault: () => void }) => {
