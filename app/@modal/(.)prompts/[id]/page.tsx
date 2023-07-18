@@ -27,7 +27,7 @@ const PromptModal = async ({ params }: { params: { id: string } }) => {
     );
 
   const {
-    extraInfo: { body, title, tags, _count: count, createdAt, creator },
+    extraInfo: { body, title, tags, _count: count, createdAt, creator, id },
   } = prompt as {
     extraInfo: Promptype;
   };
@@ -52,7 +52,7 @@ const PromptModal = async ({ params }: { params: { id: string } }) => {
               extraStyle="max-h-[200px] overflow-auto"
             />
             <PromptAllTags tags={tags} />
-            <InteractiveIconActions count={count.starredby} />
+            <InteractiveIconActions promptId={id} count={count.starredby} />
           </PromptCardOutline>
         </div>
       </div>

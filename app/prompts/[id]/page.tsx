@@ -13,7 +13,7 @@ const PromptPage = async ({ params }: { params: { id: string } }) => {
   if (prompt.status !== 200) return notFound();
 
   const {
-    extraInfo: { body, title, tags, _count: count, createdAt, creator },
+    extraInfo: { body, title, tags, _count: count, createdAt, creator, id },
   } = prompt as {
     extraInfo: Promptype;
   };
@@ -37,7 +37,10 @@ const PromptPage = async ({ params }: { params: { id: string } }) => {
             extraStyle="max-h-[200px] overflow-auto"
           />
           <PromptAllTags tags={tags} />
-          <InteractiveIconActions count={count.starredby} />
+          <InteractiveIconActions
+            promptId={params.id}
+            count={count.starredby}
+          />
         </PromptCardOutline>
       </div>
     </div>

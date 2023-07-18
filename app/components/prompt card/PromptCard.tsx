@@ -5,8 +5,8 @@ import { PromptAllTags } from './PromptHastags';
 import { PromptBody } from './PromptBody';
 import { Prompt } from '@/app/lib/types/prompts';
 
-const PromptCard = ({
-  promptData: { title, body, _count: count, createdAt, creator, tags },
+const PromptCard = async ({
+  promptData: { title, body, _count: count, createdAt, creator, tags, id },
 }: {
   promptData: Prompt;
 }) => {
@@ -26,7 +26,7 @@ const PromptCard = ({
         extraStyle="line-clamp-12"
       />
       <PromptAllTags tags={tags} />
-      <InteractiveIconActions count={count.starredby} />
+      <InteractiveIconActions promptId={id} count={count.starredby} />
     </PromptCardOutline>
   );
 };
