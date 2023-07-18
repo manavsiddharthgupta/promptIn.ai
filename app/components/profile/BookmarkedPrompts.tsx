@@ -4,9 +4,15 @@ import Feed from '../Feed';
 export const BookmarkedPrompts = ({
   bookmarkedPrompts,
 }: {
-  bookmarkedPrompts: Prompt[];
+  bookmarkedPrompts: {
+    prompt: Prompt;
+  }[];
 }) => {
-  let feed = <Feed dataArray={bookmarkedPrompts} />;
+  let updatedPrompt = bookmarkedPrompts.map((prompt) => {
+    return prompt.prompt;
+  });
+
+  let feed = <Feed dataArray={updatedPrompt} />;
   if (bookmarkedPrompts.length === 0) {
     feed = (
       <p className="text-center text-[#00000093]">

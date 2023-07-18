@@ -13,8 +13,12 @@ export const ProfileFeed = ({
   createdPrompts,
 }: {
   params: { id: string };
-  bookmarked: Prompt[];
-  starred: Prompt[];
+  bookmarked: {
+    prompt: Prompt;
+  }[];
+  starred: {
+    prompt: Prompt;
+  }[];
   createdPrompts: Prompt[];
 }) => {
   const path = '/profile/' + params.id;

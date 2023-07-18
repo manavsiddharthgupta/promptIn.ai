@@ -4,9 +4,14 @@ import Feed from '../Feed';
 export const StarredPrompts = ({
   starredPrompts,
 }: {
-  starredPrompts: Prompt[];
+  starredPrompts: {
+    prompt: Prompt;
+  }[];
 }) => {
-  let feed = <Feed dataArray={starredPrompts} />;
+  let updatedPrompt = starredPrompts.map((prompt) => {
+    return prompt.prompt;
+  });
+  let feed = <Feed dataArray={updatedPrompt} />;
   if (starredPrompts.length === 0) {
     feed = (
       <p className="text-center text-[#00000093]">
