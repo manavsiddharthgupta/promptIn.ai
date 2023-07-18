@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState, useTransition } from 'react';
 import PromptCardIcons from '../../ui/PromptCardIcons';
 import { useSession } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
 
 const InteractiveIconActions = ({
   count,
@@ -14,7 +15,7 @@ const InteractiveIconActions = ({
   const [starCount, setStarCount] = useState(count);
   const [isPending, startTransition] = useTransition();
   const session = useSession();
-
+  const path = usePathname();
   const getStarData = useCallback(async () => {
     const response = await fetch(`/api/prompts/${promptId}/star`);
     const message = await response.json();
@@ -26,8 +27,14 @@ const InteractiveIconActions = ({
   }, []);
 
   useEffect(() => {
-    getStarData();
-  }, []);
+    if (
+      path === '/' ||
+      path === `/prompts/${promptId}` ||
+      path.startsWith('/profile')
+    ) {
+      getStarData();
+    }
+  }, [path]);
   const toggleStar = async (promptId: string) => {
     const response = await fetch(`/api/prompts/${promptId}/star`, {
       method: 'PATCH',

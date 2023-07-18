@@ -12,8 +12,12 @@ export interface ProfileData {
     link: string | null;
     oneLiner: string | null;
     profileTags: string[];
-    bookmarkedPrompt: Prompt[];
+    bookmarkedPrompt: {
+      prompt: Prompt;
+    }[];
     createdPrompts: Prompt[];
-    starredPrompt: Prompt[];
+    starredPrompt: {
+      prompt: Prompt;
+    }[];
   };
 }
