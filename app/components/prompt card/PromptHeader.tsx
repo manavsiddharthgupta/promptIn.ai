@@ -2,9 +2,10 @@
 import Image from 'next/image';
 import { createdAtTimeStamp } from '@/app/lib/prompts';
 import imgAvatar from '@/app/utils/images/avatar.png';
-import { useRouter } from 'next/navigation';
-import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
-import DoneAllOutlinedIcon from '@mui/icons-material/DoneAllOutlined';
+import { usePathname, useRouter } from 'next/navigation';
+import copy from '@/app/utils/images/copy.png';
+import tick from '@/app/utils/images/double-tick.png';
+import { toast } from 'react-toastify';
 import { useState } from 'react';
 
 interface PromptHeaderProps {
@@ -27,6 +28,7 @@ const PromptHeader = ({
 }: PromptHeaderProps) => {
   const [isCopying, setIsCopying] = useState(false);
   const router = useRouter();
+  const path = usePathname();
   const timeStamp = createdAtTimeStamp(createdAt);
 
   const avatar = creator ? creator.avatarName : 'anonymous';
@@ -36,7 +38,16 @@ const PromptHeader = ({
 
   const onClickHandler = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    router.push(`/profile/${id}`);
+    console.log(path);
+
+    if (path.startsWith('/prompts')) {
+      router.back();
+      setTimeout(() => {
+        router.push(`/profile/${id}`);
+      }, 100);
+    } else {
+      router.push(`/profile/${id}`);
+    }
   };
 
   const onCopyHandler = (event: { preventDefault: () => void }) => {
@@ -44,11 +55,14 @@ const PromptHeader = ({
     if (!isCopying) {
       setIsCopying(true);
       navigator.clipboard.writeText(prompt);
+      toast.info('Copied to clipboard');
       setTimeout(() => {
         setIsCopying(false);
       }, 2000);
     }
   };
+
+  const icon = isCopying ? tick : copy;
   return (
     <div className="flex gap-2 items-center justify-between">
       <div className="flex gap-2 truncate">
@@ -82,12 +96,7 @@ const PromptHeader = ({
         onClick={onCopyHandler}
         className="border-[1px] cursor-pointer border-slate-300 min-w-[1.5rem] min-h-[1.5rem] h-6 rounded-full flex items-center justify-center"
       >
-        {!isCopying && (
-          <ContentCopyOutlinedIcon className="text-slate-500 text-xs" />
-        )}
-        {isCopying && (
-          <DoneAllOutlinedIcon className="text-green-600 text-xs" />
-        )}
+        <Image width={12} height={12} src={icon} alt="copy-to-clipboard" />
       </div>
     </div>
   );
