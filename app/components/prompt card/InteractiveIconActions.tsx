@@ -13,6 +13,7 @@ const InteractiveIconActions = ({
 }) => {
   const [starred, setStarred] = useState(false);
   const [starCount, setStarCount] = useState(count);
+  const [bookmarked, setBookmarked] = useState(false);
   const [isPending, startTransition] = useTransition();
   const session = useSession();
   const path = usePathname();
@@ -26,6 +27,15 @@ const InteractiveIconActions = ({
     }
   }, []);
 
+  const getBookmarkData = useCallback(async () => {
+    const response = await fetch(`/api/prompts/${promptId}/bookmark`);
+    const message = await response.json();
+    console.log(message);
+    if (message.status === 200) {
+      setBookmarked(message.isBookmarked);
+    }
+  }, []);
+
   useEffect(() => {
     if (
       path === '/' ||
@@ -33,6 +43,7 @@ const InteractiveIconActions = ({
       path.startsWith('/profile')
     ) {
       getStarData();
+      getBookmarkData();
     }
   }, [path]);
   const toggleStar = async (promptId: string) => {
@@ -43,8 +54,29 @@ const InteractiveIconActions = ({
 
     return message;
   };
+
+  const toggleBookmark = async (promptId: string) => {
+    const response = await fetch(`/api/prompts/${promptId}/bookmark`, {
+      method: 'PATCH',
+    });
+    const message = await response.json();
+    return message;
+  };
   const onClickHandler = (event: { preventDefault: () => void }) => {
     event.preventDefault();
+  };
+
+  const onBookmarkClickHandler = async (event: {
+    preventDefault: () => void;
+  }) => {
+    event.preventDefault();
+    if (session.status === 'authenticated') {
+      const res = await toggleBookmark(promptId);
+      console.log(res);
+      setBookmarked(!bookmarked);
+    } else {
+      console.log('not authenticated'); // custom modal
+    }
   };
 
   const onStarClickHandler = async (event: { preventDefault: () => void }) => {
@@ -59,7 +91,7 @@ const InteractiveIconActions = ({
         });
       }
     } else {
-      console.log('not authenticated');
+      console.log('not authenticated'); // custom modal
     }
   };
 
@@ -75,10 +107,10 @@ const InteractiveIconActions = ({
         </span>
       </div>
       <div
-        onClick={onClickHandler}
+        onClick={onBookmarkClickHandler}
         className="flex gap-[1px] items-center text-gray-600 hover:text-blue-500 cursor-pointer transition-all ease-in-out duration-150"
       >
-        <PromptCardIcons iconType="bookmark" selected={false} />
+        <PromptCardIcons iconType="bookmark" selected={bookmarked} />
       </div>
       <div
         onClick={onClickHandler}
