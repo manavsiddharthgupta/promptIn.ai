@@ -18,11 +18,7 @@ const ProfilePage = async ({ params }: { params: { id: string } }) => {
     return notFound();
   }
 
-  return (
-    <main className="min-h-screen">
-      <ProfileComponent params={params} profileDetails={profileDetails} />
-    </main>
-  );
+  return <ProfileComponent params={params} profileDetails={profileDetails} />;
 };
 
 export default ProfilePage;

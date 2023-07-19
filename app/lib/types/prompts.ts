@@ -18,3 +18,6 @@ export interface Prompt {
     starredby: number;
   };
 }
+export interface PromptExtend {
+  prompt: Prompt;
+}
