@@ -35,12 +35,6 @@ export const ProfileComponent = ({
           profileCardData={profileDetails}
           openEditModalHandler={openEditModal}
         />
-        <ProfileFeed
-          bookmarked={profileDetails.extraInfo.bookmarkedPrompt}
-          createdPrompts={profileDetails.extraInfo.createdPrompts}
-          starred={profileDetails.extraInfo.starredPrompt}
-          params={params}
-        />
       </Card>
       {showEditModal &&
         status === 'authenticated' &&

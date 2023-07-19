@@ -1,26 +1,37 @@
 'use client';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams, usePathname } from 'next/navigation';
 import { MyPrompts } from './MyPrompts';
 import { StarredPrompts } from './StarredPrompts';
 import { BookmarkedPrompts } from './BookmarkedPrompts';
-import { Prompt } from '@/app/lib/types/prompts';
+import { useEffect, useState } from 'react';
+import { ProfileData } from '@/app/lib/types/profile';
+import { getMyProfileData } from '@/app/lib/profile';
+import { Prompt, PromptExtend } from '@/app/lib/types/prompts';
 
-export const ProfileFeed = ({
-  params,
-  bookmarked,
-  starred,
-  createdPrompts,
-}: {
-  params: { id: string };
-  bookmarked: {
-    prompt: Prompt;
-  }[];
-  starred: {
-    prompt: Prompt;
-  }[];
-  createdPrompts: Prompt[];
-}) => {
+export const ProfileFeed = () => {
+  const [createdPrompts, setCreatedPrompts] = useState<Prompt[]>([]);
+  const [starred, setStarred] = useState<PromptExtend[]>([]);
+  const [bookmarked, setBookmarked] = useState<PromptExtend[]>([]);
+  const [loading, setLoading] = useState(false);
+  const params = useParams();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const getPrompts = async () => {
+      setLoading(true);
+      const profileDetails: ProfileData = await getMyProfileData(params.id);
+      console.log(profileDetails);
+      setCreatedPrompts(profileDetails.extraInfo.createdPrompts);
+      setStarred(profileDetails.extraInfo.starredPrompt);
+      setBookmarked(profileDetails.extraInfo.bookmarkedPrompt);
+      setLoading(false);
+    };
+    if (pathname.startsWith('/profile')) {
+      getPrompts();
+    }
+  }, [pathname]);
+
   const path = '/profile/' + params.id;
 
   let currentFeed = useSearchParams().get('feed');
@@ -62,7 +73,9 @@ export const ProfileFeed = ({
           );
         })}
       </div>
-      <div className="mx-auto min-[450px]:px-6 py-12">{feedComponent}</div>
+      <div className="mx-auto min-[450px]:px-6 py-12">
+        {loading ? <p>Loading...</p> : feedComponent}
+      </div>
     </>
   );
 };
