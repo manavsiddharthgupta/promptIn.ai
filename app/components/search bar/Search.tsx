@@ -105,7 +105,7 @@ const Search = () => {
   }, []);
 
   return (
-    <section className="sticky top-0 bg-white">
+    <section className="sticky top-0 bg-white z-10">
       <Card>
         <div ref={expandedRef}>
           <div className="flex justify-center">

@@ -1,5 +1,12 @@
+import { CircularLoading } from './components/CircularProgress';
+import Card from './ui/Card';
+
 const RootLoading = () => {
-  return <p>...Loading</p>;
+  return (
+    <Card>
+      <CircularLoading />
+    </Card>
+  );
 };
 
 export default RootLoading;

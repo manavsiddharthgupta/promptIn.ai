@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState, useTransition } from 'react';
 import PromptCardIcons from '../../ui/PromptCardIcons';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
+import { Skeleton } from '@mui/material';
 
 const InteractiveIconActions = ({
   count,
@@ -15,9 +16,11 @@ const InteractiveIconActions = ({
   const [starCount, setStarCount] = useState(count);
   const [bookmarked, setBookmarked] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const [isLoading, setLoading] = useState(false);
   const session = useSession();
   const path = usePathname();
   const getStarData = useCallback(async () => {
+    setLoading(true);
     const response = await fetch(`/api/prompts/${promptId}/star`);
     const message = await response.json();
     console.log(message);
@@ -34,6 +37,7 @@ const InteractiveIconActions = ({
     if (message.status === 200) {
       setBookmarked(message.isBookmarked);
     }
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -97,27 +101,32 @@ const InteractiveIconActions = ({
 
   return (
     <div className="flex gap-4 items-center mt-2 px-1">
-      <div
-        onClick={onStarClickHandler}
-        className="flex gap-[1px] items-center text-gray-600 hover:text-blue-500 cursor-pointer transition-all ease-in-out duration-150"
-      >
-        <PromptCardIcons iconType="star" selected={starred} />
-        <span className="text-xs font-semibold mt-1 text-inherit">
-          {starCount}
-        </span>
-      </div>
-      <div
-        onClick={onBookmarkClickHandler}
-        className="flex gap-[1px] items-center text-gray-600 hover:text-blue-500 cursor-pointer transition-all ease-in-out duration-150"
-      >
-        <PromptCardIcons iconType="bookmark" selected={bookmarked} />
-      </div>
-      <div
-        onClick={onClickHandler}
-        className="text-gray-600 hover:text-blue-500 cursor-pointer transition-all ease-in-out duration-150"
-      >
-        <PromptCardIcons iconType="share" />
-      </div>
+      {!isLoading && (
+        <>
+          <div
+            onClick={onStarClickHandler}
+            className="flex gap-[1px] items-center text-gray-600 hover:text-blue-500 cursor-pointer transition-all ease-in-out duration-150"
+          >
+            <PromptCardIcons iconType="star" selected={starred} />
+            <span className="text-xs font-semibold mt-1 text-inherit">
+              {starCount}
+            </span>
+          </div>
+          <div
+            onClick={onBookmarkClickHandler}
+            className="flex gap-[1px] items-center text-gray-600 hover:text-blue-500 cursor-pointer transition-all ease-in-out duration-150"
+          >
+            <PromptCardIcons iconType="bookmark" selected={bookmarked} />
+          </div>
+          <div
+            onClick={onClickHandler}
+            className="text-gray-600 hover:text-blue-500 cursor-pointer transition-all ease-in-out duration-150"
+          >
+            <PromptCardIcons iconType="share" />
+          </div>
+        </>
+      )}
+      {isLoading && <Skeleton variant="rectangular" width={100} height={28} />}
     </div>
   );
 };
