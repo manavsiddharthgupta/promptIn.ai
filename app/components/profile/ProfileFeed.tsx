@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { ProfileData } from '@/app/lib/types/profile';
 import { getMyProfileData } from '@/app/lib/profile';
 import { Prompt, PromptExtend } from '@/app/lib/types/prompts';
+import { CircularLoading } from '../CircularProgress';
 
 export const ProfileFeed = () => {
   const [createdPrompts, setCreatedPrompts] = useState<Prompt[]>([]);
@@ -74,7 +75,7 @@ export const ProfileFeed = () => {
         })}
       </div>
       <div className="mx-auto min-[450px]:px-6 py-12">
-        {loading ? <p>Loading...</p> : feedComponent}
+        {loading ? <CircularLoading /> : feedComponent}
       </div>
     </>
   );
