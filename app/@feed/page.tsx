@@ -3,11 +3,24 @@ import PromptCard from '../components/prompt card/PromptCard';
 import Card from '../ui/Card';
 import { getAllPromptsData } from '../lib/prompts';
 import { Prompt } from '../lib/types/prompts';
+import Image from 'next/image';
+import errorPage from '@/app/utils/images/404.png';
 
 export const dynamic = 'force-dynamic';
 
 const Feed = async () => {
   const prompts = await getAllPromptsData();
+
+  if (prompts.status !== 200) {
+    return (
+      <div className="py-5 flex flex-col items-center gap-4">
+        <Image src={errorPage} alt="404" width={340} height={200} />
+        <p className="text-sm font-bold text-red-500">
+          Oops data didn't get fetched successfully :)
+        </p>
+      </div>
+    );
+  }
 
   let promptFeedComponent = prompts.extraInfo.map((data: Prompt) => {
     return (

@@ -16,7 +16,7 @@ export const BookmarkedPrompts = ({
   if (bookmarkedPrompts.length === 0) {
     feed = (
       <p className="text-center text-[#00000093]">
-        You have not bookmarked any prompt
+        This profile haven't bookmarked any prompt
       </p>
     );
   }

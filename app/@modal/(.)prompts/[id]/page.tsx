@@ -7,6 +7,8 @@ import PromptHeader from '@/app/components/prompt card/PromptHeader';
 import { getPromptData } from '@/app/lib/prompts';
 import { ModalCard } from '@/app/ui/ModalCard';
 import { Prompt as Promptype } from '../../../lib/types/prompts';
+import Image from 'next/image';
+import errorPage from '@/app/utils/images/404.png';
 
 const PromptModal = async ({ params }: { params: { id: string } }) => {
   const prompt = await getPromptData(params.id);
@@ -17,9 +19,12 @@ const PromptModal = async ({ params }: { params: { id: string } }) => {
           <PromptDismissal textColor="white" />
           <div className="bg-white rounded-md">
             <PromptCardOutline className="p-4">
-              <p className="text-center text-sm font-bold py-4">
-                prompt not found
-              </p>
+              <div className="py-5 flex flex-col items-center gap-4">
+                <Image src={errorPage} alt="404" width={340} height={200} />
+                <p className="text-sm font-bold text-red-500">
+                  Oops data didn't get fetched successfully :)
+                </p>
+              </div>
             </PromptCardOutline>
           </div>
         </div>

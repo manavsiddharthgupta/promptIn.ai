@@ -4,6 +4,7 @@ import PromptCardIcons from '../../ui/PromptCardIcons';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { Skeleton } from '@mui/material';
+import { toast } from 'react-toastify';
 
 const InteractiveIconActions = ({
   count,
@@ -66,8 +67,11 @@ const InteractiveIconActions = ({
     const message = await response.json();
     return message;
   };
-  const onClickHandler = (event: { preventDefault: () => void }) => {
+  const onShareClickHandler = (event: { preventDefault: () => void }) => {
     event.preventDefault();
+    navigator.clipboard.writeText(
+      `${window.location.origin}/prompts/${promptId}`
+    );
   };
 
   const onBookmarkClickHandler = async (event: {
@@ -79,6 +83,16 @@ const InteractiveIconActions = ({
       console.log(res);
       setBookmarked(!bookmarked);
     } else {
+      toast.error('You need to be logged in to bookmark a prompt', {
+        position: 'top-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
       console.log('not authenticated'); // custom modal
     }
   };
@@ -95,6 +109,16 @@ const InteractiveIconActions = ({
         });
       }
     } else {
+      toast.error('★ You need to be logged in to star a prompt', {
+        position: 'top-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
       console.log('not authenticated'); // custom modal
     }
   };
@@ -119,7 +143,7 @@ const InteractiveIconActions = ({
             <PromptCardIcons iconType="bookmark" selected={bookmarked} />
           </div>
           <div
-            onClick={onClickHandler}
+            onClick={onShareClickHandler}
             className="text-gray-600 hover:text-blue-500 cursor-pointer transition-all ease-in-out duration-150"
           >
             <PromptCardIcons iconType="share" />

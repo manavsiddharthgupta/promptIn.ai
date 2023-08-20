@@ -1,7 +1,8 @@
 import { getAuthSession } from '@/app/lib/auth';
-import { db } from '@/app/lib/db';
+import { PrismaClient } from '@prisma/client';
 import { NextResponse } from 'next/server';
 
+const db = new PrismaClient();
 export async function GET(
   request: Request,
   context: { params: { id: string } }

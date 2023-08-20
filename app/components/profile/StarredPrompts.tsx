@@ -15,7 +15,7 @@ export const StarredPrompts = ({
   if (starredPrompts.length === 0) {
     feed = (
       <p className="text-center text-[#00000093]">
-        You have not starred any prompt
+        This profile haven't starred any prompt
       </p>
     );
   }

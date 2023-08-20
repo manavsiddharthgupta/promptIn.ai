@@ -1,11 +1,13 @@
 'use client';
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/system';
-import { useState, useRef, RefObject, useEffect } from 'react';
+import { useState, useRef, RefObject, useEffect, useCallback } from 'react';
 import Card from '../../ui/Card';
 import { motion } from 'framer-motion';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { SearchExpanded } from './SearchExpanded';
+import { getSearchPrompts } from '@/app/lib/search';
+import { SearchPromptType } from '@/app/lib/types/prompts';
 
 const CustomTextField = styled(TextField)({
   '& .MuiInputBase-root': {
@@ -53,13 +55,23 @@ const SearchDissimalComponent = ({
 
 const SearchExpandComponent = ({
   onDismissExpand,
+  searchPromptResult,
+  searchLoadingState,
+  searchErrorState,
 }: {
   onDismissExpand: () => void;
+  searchPromptResult: SearchPromptType[];
+  searchLoadingState: boolean;
+  searchErrorState: string | null;
 }) => {
   return (
     <>
       <SearchDissimalComponent onDismissExpand={onDismissExpand} />
-      <SearchExpanded />
+      <SearchExpanded
+        searchLoadingState={searchLoadingState}
+        searchPromptResult={searchPromptResult}
+        searchErrorState={searchErrorState}
+      />
     </>
   );
 };
@@ -67,14 +79,27 @@ const SearchExpandComponent = ({
 const SearchExpandContainer = ({
   onDismissExpand,
   isExpanded,
+  searchPromptsResult,
+  searchLoadingState,
+  searchErrorState,
 }: {
   onDismissExpand: () => void;
   isExpanded: boolean;
+  searchPromptsResult: SearchPromptType[];
+  searchLoadingState: boolean;
+  searchErrorState: string | null;
 }) => {
   return (
     <section className="w-full relative">
       <motion.div
-        children={<SearchExpandComponent onDismissExpand={onDismissExpand} />}
+        children={
+          <SearchExpandComponent
+            searchPromptResult={searchPromptsResult}
+            onDismissExpand={onDismissExpand}
+            searchLoadingState={searchLoadingState}
+            searchErrorState={searchErrorState}
+          />
+        }
         animate={isExpanded ? 'expanded' : 'collapsed'}
         variants={expandContainerVariant}
       />
@@ -85,7 +110,38 @@ const SearchExpandContainer = ({
 const Search = () => {
   const [isExpanded, setExpanded] = useState(false);
   const [searchText, setSearchText] = useState('');
+  const [searchPromptsResult, setSearchPromptsResult] = useState<
+    SearchPromptType[]
+  >([]);
+  const [searchPromptLoading, setSearchPromptLoading] = useState(false);
+  const [searchPromptError, setSearchPromptError] = useState(null);
   const expandedRef = useRef(null) as RefObject<HTMLInputElement>;
+
+  const delayedSearch = useCallback(async (inputSearch: string) => {
+    setSearchPromptLoading(true);
+    const data = await getSearchPrompts(inputSearch);
+    if (data.status !== 200) {
+      setSearchPromptError(data.message);
+      setSearchPromptLoading(false);
+      return;
+    }
+    setSearchPromptLoading(false);
+    setSearchPromptsResult(data.extraInfo);
+  }, []);
+
+  useEffect(() => {
+    if (searchText === '') {
+      setSearchPromptsResult([]);
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      console.log('Searching for ->', searchText);
+      delayedSearch(searchText);
+    }, 1500);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchText, delayedSearch]);
 
   const onDismissExpandHandler = () => {
     setSearchText('');
@@ -128,6 +184,9 @@ const Search = () => {
           <SearchExpandContainer
             onDismissExpand={onDismissExpandHandler}
             isExpanded={isExpanded}
+            searchPromptsResult={searchPromptsResult}
+            searchLoadingState={searchPromptLoading}
+            searchErrorState={searchPromptError}
           />
         </div>
       </Card>

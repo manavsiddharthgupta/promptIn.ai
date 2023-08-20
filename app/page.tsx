@@ -6,9 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function Home() {
   return (
     <>
-      <Card>
-        <Hero />
-      </Card>
+      <Card>{/* <Hero /> */}</Card>
       <ToastContainer
         position="bottom-left"
         autoClose={2000}

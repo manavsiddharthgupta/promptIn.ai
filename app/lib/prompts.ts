@@ -1,11 +1,17 @@
 export const getAllPromptsData = async () => {
   const data = await fetch('http://localhost:3000/api/prompts');
+  if (data.status === 404) {
+    return data;
+  }
   const prompts = await data.json();
   return prompts;
 };
 
 export const getPromptData = async (id: string) => {
   const data = await fetch(`http://localhost:3000/api/prompts/${id}`);
+  if (data.status === 404) {
+    return data;
+  }
   const prompt = await data.json();
   return prompt;
 };

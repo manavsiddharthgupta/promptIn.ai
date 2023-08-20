@@ -6,7 +6,7 @@ export const MyPrompts = ({ createdPrompts }: { createdPrompts: Prompt[] }) => {
   if (createdPrompts.length === 0) {
     feed = (
       <p className="text-center text-[#00000093]">
-        You have not created any prompt
+        This profile haven't created any prompt
       </p>
     );
   }

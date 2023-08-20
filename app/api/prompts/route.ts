@@ -4,45 +4,53 @@ import { NextResponse } from 'next/server';
 const prisma = new PrismaClient();
 
 export async function GET(request: Request) {
-  const prompts = await prisma.prompt.findMany({
-    select: {
-      id: true,
-      title: true,
-      body: true,
-      tags: true,
-      createdBy: true,
-      createdAt: true,
-      _count: {
-        select: {
-          starredby: true,
+  try {
+    const prompts = await prisma.prompt.findMany({
+      select: {
+        id: true,
+        title: true,
+        body: true,
+        tags: true,
+        createdBy: true,
+        createdAt: true,
+        _count: {
+          select: {
+            starredby: true,
+          },
+        },
+        creator: {
+          select: {
+            avatarName: true,
+            image: true,
+            id: true,
+            profileTags: true,
+          },
         },
       },
-      creator: {
-        select: {
-          avatarName: true,
-          image: true,
-          id: true,
-          profileTags: true,
-        },
+      orderBy: {
+        createdAt: 'desc',
       },
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-  });
+    });
 
-  if (!prompts) {
+    if (!prompts) {
+      return NextResponse.json({
+        status: 401,
+        message: 'Prompts not fetched',
+      });
+    }
+
+    return NextResponse.json({
+      status: 200,
+      message: 'Prompts fetched successfully',
+      extraInfo: prompts,
+    });
+  } catch (error) {
+    console.log(error);
     return NextResponse.json({
       status: 401,
       message: 'Prompts not fetched',
     });
   }
-
-  return NextResponse.json({
-    status: 200,
-    message: 'Prompts fetched successfully',
-    extraInfo: prompts,
-  });
 }
 
 export async function POST(request: Request) {

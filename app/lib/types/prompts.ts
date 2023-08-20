@@ -21,3 +21,13 @@ export interface Prompt {
 export interface PromptExtend {
   prompt: Prompt;
 }
+
+export interface SearchPromptType {
+  id: string;
+  title: string;
+  body: string;
+  createdAt: string;
+  _count: {
+    starredby: number;
+  };
+}
